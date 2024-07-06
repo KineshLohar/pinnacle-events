@@ -4,6 +4,7 @@ import Navbar from "./_components/navbar/page";
 
 import { faFacebook, faInstagram, faTwitter, faLinkedin, faReddit, faWhatsapp, faYoutube, faGithub, faGoogle, faTelegram, faApple} from "@fortawesome/free-brands-svg-icons"; // Import all brand icons
 import { library } from "@fortawesome/fontawesome-svg-core";
+import Footer from "./_components/footer/page";
 
 library.add(faFacebook, faInstagram, faTwitter, faLinkedin, faReddit, faWhatsapp, faYoutube, faGithub, faGoogle, faTelegram, faApple)
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
       <body className={`m-0 bg-white overflow-y-scroll`}>
         <nav>{<Navbar />}</nav>
         {children}
+        {<Footer />}
       </body>
     </html>
   );
