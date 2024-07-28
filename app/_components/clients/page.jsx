@@ -59,8 +59,8 @@ const logos =[
 const Clients = () => {
 
   return (
-    <div id='clients' className=" w-full bg-slate-100 h-60 flex flex-col justify-around items-center py-6 border-t-2 border-b-2 border-gray-200 md:px-24">
-      <h3 className=" text-center font-bold text-xl mb-8 opacity-80 sm:text-3xl" >Brands we have worked with</h3>
+    <div id='clients' className=" w-full flex flex-col justify-around items-center py-6 border-t-2 border-b-0 border-gray-200 md:px-24 md:pt-20">
+      <h2 className=" text-center font-bold text-xl mb-8 opacity-80 sm:text-4xl" >Brands we have worked with</h2>
       <div className="w-full inline-flex flex-nowrap overflow-hidden opacity-80 [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
         <ul id="logos" className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
           {/* <li className=""><Image src={honda} alt="logo"  width={90} className=" object-cover"/> </li> */}

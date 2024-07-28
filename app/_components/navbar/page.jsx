@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from 'next/navigation';
 
 import { Playfair_Display } from "next/font/google";
+import Link from "next/link";
 
 const playfair_display = Playfair_Display({
   subsets: ["latin"],
@@ -66,6 +68,7 @@ const mobRoutes = [
 
 export default function Navbar() {
   const [showMobMenu, setShowMobMenu] = useState(false);
+  const pathname = usePathname()
 
   const handleToggle = () => {
     setShowMobMenu(!showMobMenu);
@@ -80,12 +83,13 @@ export default function Navbar() {
         <div className=" hidden lg:flex lg:justify-between lg:items-center">
           {webRoutes.map((nav) => {
             return (
+              <Link href={nav.path} key={nav.id}>
               <div
-                key={nav.id}
-                className="ml-8 text-xl cursor-pointer relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center"
+                className={`ml-8 text-xl cursor-pointer relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ${pathname === nav.path && 'after:scale-x-100'}`}
               >
                 {nav.name}
               </div>
+              </Link>
             );
           })}
         </div>

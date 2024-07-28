@@ -46,16 +46,19 @@ const socials = [
 const Hero = () => {
 
     return (
-        <div className="flex flex-col justify-center items-center bg-cover bg-center pt-[5rem] p-8 pb-12 w-full lg:flex-row lg:min-h-[100vh] lg:px-28  " style={{backgroundImage : `url(${bgImage.src})`}}>
+        <div className="flex flex-col justify-center items-center bg-cover bg-center pt-[5rem] p-8 pb-12 w-full lg:flex-row lg:min-h-[100vh] lg:px-28  " 
+        style={{backgroundImage : `url(${bgImage.src})`}}
+        >
             <div className="flex flex-col text-center pt-12 lg:pt-0 lg:w-6/12 lg:text-left lg:items-start lg:justify-center lg:h-[70vh]">
                 <h1 className=" text-3xl font-bold lg:text-4xl xl:text-6xl text-white">
                     Pinnacle Events - Your One-Stop Destination for Unforgettable Events
                 </h1>
-                <p className=" text-lg my-4 font-serif opacity-95 lg:mr-4 text-white">
+                <p className="relative text-lg my-4 font-serif opacity-95 lg:mr-4 text-white">
                     Pinnacle Events is a one-stop destination for unforgettable events.
                     Whether you are looking for a place to stay, a place to eat, or a
                     place to dine, Pinnacle Events is the place to find the perfect venue
                     for you.
+                    <span className="absolute -inset-3 bg-black bg-opacity-50 blur-lg rounded-lg -z-10"></span>
                 </p>
                 <div className="flex flex-col justify-center items-center lg:w-full lg:items-start">
                     <div className="flex justify-around flex-wrap w-full lg:justify-start lg:items-center">

@@ -47,7 +47,7 @@ const socials = [
 
 const Footer = () => {
   return (
-    <footer className=" bg-slate-200 text-center text-surface/75  lg:text-left">
+    <footer className=" bg-[#191919] text-white text-center text-surface/75  lg:text-left">
       <div className="flex items-center justify-center border-b-2 border-b-slate-300 p-6  lg:justify-between">
         <div className="me-12 hidden lg:block">
           <span>Get connected with us on social networks:</span>
@@ -57,7 +57,7 @@ const Footer = () => {
         {socials.map((social) => (      
                             <Link key={social.id} href={social.path} legacyBehavior className="">                      
                                 {/* <FontAwesomeIcon icon={social.icon} height='2rem' /> */}
-                                <SocialIcon url={social.path} className="mr-4 " bgColor='black' style={{height : '2rem', width : '2rem'}} />
+                                <SocialIcon url={social.path} className="mr-4 hover:-translate-y-1 transition-all" bgColor='black' style={{height : '2rem', width : '2rem'}} />
                             </Link>
                         ))}
         </div>
@@ -86,19 +86,19 @@ const Footer = () => {
               Useful links
             </h6>
             <p className="mb-4">
-              <Link href="#!">Home</Link>
+              <Link href="/">Home</Link>
             </p>
             <p className="mb-4">
-              <Link href="#!">Services</Link>
+              <Link href="/services">Services</Link>
             </p>
             <p className="mb-4">
-              <Link href="#!">Testimonails</Link>
+              <Link href="/gallery">Gallery</Link>
             </p>
             <p className="mb-4">
-              <Link href="#clients">About</Link>
+              <Link href="/about">About</Link>
             </p>
             <p>
-              <Link href="#!">Contact</Link>
+              <Link href="/contact">Contact</Link>
             </p>
           </div>
 
