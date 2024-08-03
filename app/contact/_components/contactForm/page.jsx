@@ -135,7 +135,7 @@ export default function ContactPageForm(){
               className='w-full'
             >
               {({ isSubmitting, handleSubmit }) => (
-                <Form onSubmit={handleSubmit} className="flex flex-col ">
+                <Form onSubmit={handleSubmit} className="flex flex-col text-black ">
                   <div className="flex flex-col mb-6 font-bold text-2xl ">
                     Contact Form
                   </div>

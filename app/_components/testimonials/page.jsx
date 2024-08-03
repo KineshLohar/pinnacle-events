@@ -70,9 +70,9 @@ const Testimonials = () => {
       <div className="flex flex-wrap w-full items-stretch gap-6 mt-4 justify-center">
         {
           sampleTestimonials.map((testimonial) => (
-                      <div key={testimonial.id} className="flex flex-col items-start justify-center px-8 py-4 border-neutral-700 bg-neutral-800 border-2 rounded-lg w-5/6 md:w-1/4">
+                      <div key={testimonial.id} className="flex flex-col items-start justify-center px-8 py-4 border-neutral-700 bg-neutral-800 border-2 rounded-lg w-5/6 md:w-2/5 lg:w-1/4">
                         <div className="text-2xl font-semibold">{testimonial.name}</div>
-                        <div className="text-lg">{testimonial.head}</div>
+                        <div className="">{testimonial.head}</div>
                         {/* <div className="text-gray-400">{testimonial.company}</div> */}
                         <div className=" text-lg text-gray-500 text-pretty">{testimonial.testimonial}</div>
                       </div>
