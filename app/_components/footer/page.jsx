@@ -47,7 +47,7 @@ const socials = [
 
 const Footer = () => {
   return (
-    <footer className=" bg-[#191919] text-white text-center text-surface/75  lg:text-left">
+    <footer className="bg-slate-200 dark:bg-[#191919] text-black dark:text-white text-center text-surface/75  lg:text-left">
       <div className="flex items-center justify-center border-b-2 border-b-slate-300 p-6  lg:justify-between">
         <div className="me-12 hidden lg:block">
           <span>Get connected with us on social networks:</span>
@@ -55,7 +55,7 @@ const Footer = () => {
 
         <div className="flex justify-center">
         {socials.map((social) => (      
-                            <Link key={social.id} href={social.path} legacyBehavior className="">                      
+                            <Link key={social.id} href={social.path} legacyBehavior className=" z-10">                      
                                 {/* <FontAwesomeIcon icon={social.icon} height='2rem' /> */}
                                 <SocialIcon url={social.path} className="mr-4 hover:-translate-y-1 transition-all" bgColor='black' style={{height : '2rem', width : '2rem'}} />
                             </Link>
@@ -63,10 +63,10 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="mx-6 py-10 text-center  md:text-left">
+      <div className="mx-6 py-10 text-left">
         <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="">
-            <h6 className="mb-4 flex items-center justify-center font-bold md:justify-start">
+          <div className="text-justify">
+            <h6 className="mb-4 flex items-center justify-start text-justify font-bold md:justify-start">
               <span className="me-3 [&>svg]:h-4 [&>svg]:w-4">
                 LOGO
               </span>
@@ -103,22 +103,22 @@ const Footer = () => {
           </div>
 
           <div>
-            <h6 className="mb-4 flex justify-center font-bold uppercase md:justify-start">
+            <h6 className="mb-4 flex justify-start font-bold uppercase md:justify-start">
               Contact
             </h6>
-            <p className="mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-4 flex items-center justify-start">
               <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
               <FontAwesomeIcon icon={faHouse} />
               </span>
               481/2 Ahmedabad Gujarat 382481
             </p>
-            <p className="mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-4 flex items-center justify-start">
             <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
             <FontAwesomeIcon icon={faEnvelope} />
             </span>
              ravi130489@gmail.com
             </p>
-            <p className="mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-4 flex items-center justify-start">
               <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
               <FontAwesomeIcon icon={faPhone} />
               </span>
@@ -144,12 +144,12 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-black/5 p-6 italic text-center flex items-center justify-center">
+      <div className="bg-black/5 p-6 italic text-center md:flex md:items-center md:justify-center">
         <span>© 2023 Copyright:</span>
         <a className="font-semibold" href="https://tw-elements.com/">
           Pinnacle Events 
         </a>
-        <span className="ml-2 flex items-center justify-center ">Developed using <Image src={nextJsLogo} height={50} width={50} className="mx-2" /> by @Kinesh Lohar</span>
+        <span className="ml-2 flex items-center justify-center ">Developed using <Image src={nextJsLogo} height={50} width={50} className="mx-2" alt='nextlogo' /> by @Kinesh Lohar</span>
       </div>
     
     </footer>

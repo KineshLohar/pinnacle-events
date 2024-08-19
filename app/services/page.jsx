@@ -4,6 +4,9 @@ import car from "../../public/static/images/car.jpg";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faForward } from "@fortawesome/free-solid-svg-icons";
+import ExpertiseHighlights from "./components/ExpertiseHighlights";
+import AdditionalServices from "./components/AdditionalServices";
+import ProcessAndCTA from './components/ProcessAndCTA'
 
 const services = [
     {
@@ -122,9 +125,11 @@ export default function Services() {
   };
 
   return (
-    <div className="bg-[#1f1f1f] text-white py-24 flex flex-col justify-center items-center">
+    <div className=" bg-primaryLight dark:bg-primaryDark text-black dark:text-white py-24 pb-8 flex flex-col justify-center items-center transition-colors duration-200 ">
       <h2 className="text-3xl md:text-4xl lg:text-5xl mt-4 text-center font-serif font-semibold">
-        <span className=" opacity-85">Our</span> <span className="bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-clip-text text-transparent">Services</span>
+        <span className=" opacity-85">Our </span> 
+        {/* <span className="bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-clip-text text-transparent">Services</span> */}
+        <span className="text-blue-400">Services</span>
       </h2>
       <div className="p-6 text-lg lg:px-52 lg:text-2xl text-center mt-4 opacity-90">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi
@@ -160,9 +165,7 @@ export default function Services() {
           return (
             <div
               key={item.id}
-              className={`text-white text-center content-center text-xs sm:text-base py-3 px-6 bg-[#2c2c2c] rounded-xl transition-opacity duration-300 break-words max-w-[10rem] ${
-                showAll ? "opacity-100" : "opacity-70"
-              }`}
+              className={`text-black dark:text-white text-center content-center text-xs sm:text-base py-3 px-6 bg-slate-100 dark:bg-[#2c2c2c] rounded-xl transition-opacity duration-300 break-words max-w-[10rem] `}
               style={{
                 borderLeft: `2px solid ${leftBorderColor}`,
                 borderRight: `2px solid ${rightBorderColor}`,
@@ -177,14 +180,14 @@ export default function Services() {
         {showAll ? (
           <button
             onClick={() => setShowAll(false)}
-            className="px-4 py-2 bg-[#2c2c2c] text-white rounded-lg transition-opacity duration-300 hover:opacity-80"
+            className="px-4 py-2 bg-slate-200 dark:bg-[#2c2c2c] text-black dark:text-white rounded-lg transition-opacity duration-300 hover:opacity-80"
           >
             Show Less
           </button>
         ) : (
           <button
             onClick={() => setShowAll(true)}
-            className="px-4 py-2 bg-[#2c2c2c] text-white rounded-lg transition-opacity duration-300 hover:opacity-80"
+            className="px-4 py-2 bg-slate-200 dark:bg-[#2c2c2c] text-black dark:text-white rounded-lg transition-opacity duration-300 hover:opacity-80"
           >
             Show More
           </button>
@@ -203,7 +206,7 @@ export default function Services() {
           return (
             <div
               key={item.id}
-              className={`bg-[#2c2c2c] rounded-xl flex flex-col m-4 md:m-8 items-stretch justify-evenly ${flexDirection}`}
+              className={`dark:bg-[#2c2c2c]  bg-gray-50 drop-shadow-xl shadow-slate-700 transition-colors duration-200 dark:text-white text-black rounded-xl flex flex-col m-4 md:m-8 items-stretch justify-evenly ${flexDirection}`}
             >
               <Image
                 src={item.image}
@@ -214,12 +217,12 @@ export default function Services() {
                 <div className="font-bold text-5xl md:text-6xl text-blue-400 font-sans">
                   {item.number}
                 </div>
-                <div className="text-4xl font-semibold">{item.title}</div>
+                <div className=" text-2xl lg:text-4xl font-semibold">{item.title}</div>
                 {/* <div className="text-justify">{item.description}</div> */}
                 <div className="flex flex-col items-start justify-center gap-2">
                     {
-                        item.description.map(desc => (
-                            <div>
+                        item.description.map((desc, index) => (
+                            <div key={index}>
                                 <FontAwesomeIcon icon={faForward} className="mr-2" /><span>{desc.text}</span>
                             </div>
                         ))
@@ -230,6 +233,9 @@ export default function Services() {
           );
         })}
       </div>
+      <ExpertiseHighlights />
+      <AdditionalServices />
+      <ProcessAndCTA />
     </div>
   );
 }

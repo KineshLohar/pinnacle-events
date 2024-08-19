@@ -35,7 +35,7 @@ export default function FAQ(){
             data-aos='fade-up'
             data-aos-delay='50'
             data-aos-duration="500"
-            className='w-full flex flex-col items-center justify-center text-center'>
+            className='w-full text-black dark:text-white flex flex-col items-center justify-center text-center'>
                 <h3 className='font-bold text-4xl font-serif'>Frequently Asked Questions</h3>
                 <p className="px-8 lg:px-32 my-2 font-semibold opacity-70 text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem temporibus aut quia ipsa et fugiat odit impedit aliquid, numquam molestias perspiciatis voluptatem delectus nulla minima praesentium? Quisquam id totam ut.</p>
             </div>

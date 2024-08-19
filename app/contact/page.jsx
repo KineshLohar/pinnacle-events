@@ -55,7 +55,7 @@ export default function Contact(){
       ];
 
     return (
-        <div className=" bg-[#1f1f1f] text-white w-full flex flex-col items-center justify-center lg:p-20 pt-[7rem] lg:pt-[7rem] pb-16">
+        <div className="bg-primaryLight dark:bg-primaryDark text-white w-full flex flex-col items-center justify-center lg:p-20 pt-[7rem] lg:pt-[7rem] pb-16">
             <div
             data-aos='fade-up'
             data-aos-delay='50'
@@ -68,7 +68,7 @@ export default function Contact(){
             data-aos-delay='50'
             data-aos-duration="500"
             className="w-full flex gap-8 flex-col md:flex-row justify-between px-8 lg:p-0">
-                <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-8 px-14 rounded-lg text-left  bg-gradient-to-r from-violet-50 to-pink-50">
+                <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-8 px-14 rounded-lg text-left drop-shadow-md shadow-slate-200   bg-gradient-to-r from-violet-50 to-pink-50">
                     <FontAwesomeIcon icon={faPhoneVolume} style={{color: "#7950f7",}} className="h-12" />
                     <div className=" font-bold text-2xl font-sans text-black">Our Contact Number</div>
                     <div className='font-medium text-gray-500 opacity-70' >
@@ -76,7 +76,7 @@ export default function Contact(){
                         <div>+91 99999 00000</div>
                     </div>
                 </div>
-                <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-10 px-14 rounded-lg text-left  bg-gradient-to-r from-violet-50 to-pink-50">
+                <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-10 px-14 rounded-lg text-left drop-shadow-md shadow-slate-200  bg-gradient-to-r from-violet-50 to-pink-50">
                     <FontAwesomeIcon icon={faEnvelope} style={{color: "#794dff",}} className="h-12"/>
                     <div className=" font-bold text-2xl font-sans text-black">Our Email Address</div>
                     <div className='font-medium text-gray-500 opacity-70'>
@@ -84,7 +84,7 @@ export default function Contact(){
                         <div>+91 99999 00000</div>
                     </div>
                 </div>
-                <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-10 px-14 rounded-lg text-left  bg-gradient-to-r from-violet-50 to-pink-50">
+                <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-10 px-14 rounded-lg text-left drop-shadow-md shadow-slate-200 bg-gradient-to-r from-violet-50 to-pink-50">
                     <FontAwesomeIcon icon={faComments} style={{color: "#8059f8",}} className="h-12" />
                     <div  className=" font-bold text-2xl font-sans text-black">Our Social Accounts</div>
                     <div className="flex">

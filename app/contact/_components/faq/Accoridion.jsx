@@ -20,7 +20,7 @@ export default function Accordion({data}) {
         data-aos-delay='50'
         data-aos-duration="500"
         ref={animationParent} className="w-11/12 lg:w-10/12 shadow-[0_3px_10px_rgb(0,0,0,0.2)] flex flex-col p-8 rounded-lg transition-all duration-300">
-            <p className="flex justify-between items-center cursor-pointer font-bold" onClick={toggleAccordion}>
+            <p className="flex text-black dark:text-white justify-between items-center cursor-pointer font-bold" onClick={toggleAccordion}>
                 <span>{data.question}</span>
                 {
                     isAccordionOpen ? 

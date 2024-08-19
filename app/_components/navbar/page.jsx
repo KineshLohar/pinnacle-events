@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from 'next/navigation';
-
+import { useTheme } from "../ThemeProvider";
 import { Playfair_Display } from "next/font/google";
 import Link from "next/link";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const playfair_display = Playfair_Display({
   subsets: ["latin"],
@@ -51,8 +54,8 @@ const mobRoutes = [
   },
   {
     id: 3,
-    name: "Testimonials",
-    path: "/testimonials",
+    name: "Gallery",
+    path: "/gallery",
   },
   {
     id: 4,
@@ -69,6 +72,7 @@ const mobRoutes = [
 export default function Navbar() {
   const [showMobMenu, setShowMobMenu] = useState(false);
   const pathname = usePathname()
+  const { theme, toggleTheme } = useTheme();
 
   const handleToggle = () => {
     setShowMobMenu(!showMobMenu);
@@ -77,7 +81,7 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={` fixed  top-0 z-10 bg-black text-white backdrop-filter backdrop-blur-lg bg-opacity-30 w-full h-20 lg:px-28 flex justify-between items-center ${playfair_display?.className}`}
+        className={` fixed  top-0 z-10 bg-white dark:bg-black text-black transition-colors duration-200 dark:text-white backdrop-filter backdrop-blur-lg w-full h-20 lg:px-28 flex justify-between items-center ${playfair_display?.className}`}
       >
         <div className="p-4 ml-4 lg:p-0 lg:ml-0">Pinnacle Events</div>
         <div className=" hidden lg:flex lg:justify-between lg:items-center">
@@ -85,31 +89,27 @@ export default function Navbar() {
             return (
               <Link href={nav.path} key={nav.id}>
               <div
-                className={`ml-8 text-xl cursor-pointer relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ${pathname === nav.path && 'after:scale-x-100'}`}
+                className={`ml-8 text-xl cursor-pointer font-medium relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] dark:after:bg-white after:bg-black after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center ${pathname === nav.path && 'after:scale-x-100'}`}
               >
                 {nav.name}
               </div>
               </Link>
             );
           })}
+          {/* <button onClick={toggleTheme} className="ml-8 text-xl px-2 py-1 bg-gray-800 dark:bg-slate-50 rounded-md">
+            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} className=" text-white dark:text-black" />
+          </button> */}
         </div>
-        {/* <button onClick={() => handleToggle()} className=" p-4 lg:hidden">
-          burger
-        </button> */}
 
-        <svg
-            onClick={() => handleToggle()}
-            className="fixed  z-30 flex items-center cursor-pointer right-10 top-6 lg:hidden"
-            fill="#fff"
-            viewBox="0 0 100 80"
-            width="40"
-            height="40"
-          >
-            <rect width="100" height="10"></rect>
-            <rect y="30" width="100" height="10"></rect>
-            <rect y="60" width="100" height="10"></rect>
-          </svg>
+        <button onClick={toggleTheme} className="ml-8 text-2xl mb-2 lg:mb-0 lg:text-3xl mr-20 mt-2 px-2 py-1 bg-gray-800 dark:bg-slate-50 rounded-md">
+            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} size='lg' className=" text-white dark:text-black" />
+          </button>
+          <FontAwesomeIcon
+          onClick={() => handleToggle()}
+          icon={faBars} size='2xl' className="fixed z-30 flex items-center cursor-pointer right-10 top-6 lg:hidden" />
 
+
+          
         {/* {showMobMenu ? (
           
         ) : (
@@ -131,11 +131,14 @@ export default function Navbar() {
           </button>
           {
             mobRoutes.map(item => (
-                <div key={item.id} className="m-4 text-xl sm:text-2xl text-right font-medium text-white">
+                <Link href={item.path} onClick={() => handleToggle()} key={item.id} className="m-4 text-xl sm:text-2xl text-right font-medium text-white">
                     {item.name}
-                </div>
+                </Link>
             ))
           }
+          {/* <button onClick={toggleTheme} className="ml-8 text-4xl mr-4 mt-2 px-2 py-1 bg-gray-800 dark:bg-slate-50 rounded-md">
+            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} className=" text-white dark:text-black" />
+          </button> */}
           </div>
           
           {/* <h3 className="mt-20 text-4xl font-semibold text-white">
