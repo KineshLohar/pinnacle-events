@@ -40,3 +40,13 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
+
+.sidebar {
+  @apply transition-transform duration-200 ease-in-out;
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    @apply fixed inset-y-0 left-0 z-50 w-64 overflow-y-auto bg-indigo-800 px-2 pt-20 pb-4;
+  }
+}

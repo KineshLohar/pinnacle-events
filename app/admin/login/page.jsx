@@ -7,9 +7,11 @@ import { useRouter } from 'next/navigation';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
 
   const handleSubmit = async (e) => {
+    setIsLoading(true)
     e.preventDefault();
     const result = await signIn('credentials', {
       username,
@@ -19,8 +21,10 @@ export default function Login() {
 
     if (result.ok) {
       router.push('/admin/dashboard');
+      setIsLoading(false)
     } else {
       alert('Login failed. Please check your credentials.');
+      setIsLoading(false)
     }
   };
 
@@ -62,9 +66,12 @@ export default function Login() {
           <div>
             <button
               type="submit"
+              disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Sign in
+              {
+                isLoading ? 'loading...' : 'Sign In'
+              }
             </button>
           </div>
         </form>

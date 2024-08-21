@@ -46,11 +46,11 @@ const socials = [
 const Hero = () => {
 
     return (
-        <div className="flex flex-col justify-center items-center bg-cover bg-center pt-[5rem] p-8 pb-12 w-full lg:flex-row lg:min-h-[100vh] lg:px-28  " 
+        <div className="flex flex-col justify-center items-center bg-cover bg-center pt-[5rem]lg p-8 pb-12 w-full lg:flex-row lg:min-h-[100vh] lg:px-28  " 
         style={{backgroundImage : `url(${bgImage.src})`}}
         >
             <div className="flex flex-col text-center pt-12 lg:pt-0 lg:w-6/12 lg:text-left lg:items-start lg:justify-center lg:h-[70vh]">
-                <h1 className=" text-3xl font-bold lg:text-4xl xl:text-6xl text-white">
+                <h1 className=" text-3xl font-bold lg:text-4xl xl:text-5xl text-white">
                     Pinnacle Events - Your One-Stop Destination for Unforgettable Events
                 </h1>
                 <p className="relative text-lg my-4 font-serif opacity-95 lg:mr-4 text-white">

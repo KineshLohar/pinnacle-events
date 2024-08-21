@@ -28,7 +28,9 @@ const [error, setError] = useState(null);
       }
       
       const data = await res.json();
-      setEvents(data);
+      console.log("data from eveents", data);
+      
+      setEvents(data?.events);
     } catch (err) {
       console.error("Error fetching events:", err);
       setError("Failed to fetch events. Please try again later.");
@@ -87,7 +89,7 @@ const [error, setError] = useState(null);
 
   return (
     <AdminLayout>
-      <div className="flex justify-between items-center mb-4 mt-20">
+      <div className="flex justify-between items-center mb-4 mt-24">
         <h1 className="text-2xl font-bold">Events</h1>
         <button
           onClick={handleAddNew}

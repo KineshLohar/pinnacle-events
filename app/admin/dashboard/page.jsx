@@ -19,7 +19,7 @@ export default function Dashboard() {
 
   return (
     <AdminLayout>
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4 mt-24">Admin Dashboard</h1>
       <p className="mb-4">Welcome, {session.user.name}!</p>
       {/* Add more dashboard content here */}
     </AdminLayout>

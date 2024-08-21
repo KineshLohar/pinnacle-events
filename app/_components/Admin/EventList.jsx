@@ -9,7 +9,7 @@ export default function EventList({ events, onEdit, onDelete }) {
             <h3 className="font-bold">{event.title}</h3>
             <p className="text-sm text-gray-600">{new Date(event.date).toLocaleDateString()}</p>
             <p className="mt-2">{event.description.substring(0, 100)}...</p>
-            <img src={mainImage?.src} />
+            <img src={mainImage?.src} className=' aspect-square object-cover' />
             <div className="mt-4 flex justify-end space-x-2">
               <button
                 onClick={() => onEdit(event)}
