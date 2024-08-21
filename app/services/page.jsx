@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faForward } from "@fortawesome/free-solid-svg-icons";
 import ExpertiseHighlights from "./components/ExpertiseHighlights";
 import AdditionalServices from "./components/AdditionalServices";
-import ProcessAndCTA from './components/ProcessAndCTA'
+import ProcessAndCTA from './components/ProcessAndCTA';
+import pnc from '../../public/static/images/planning-and-coordination.jpg'
 
 const services = [
     {
@@ -19,7 +20,7 @@ const services = [
         { id: 3, text: "Timeline and schedule creation" },
         { id: 4, text: "Vendor coordination and management" }
       ],
-      image: car,   
+      image: pnc,   
     },
     {
       id: 2,
@@ -105,6 +106,38 @@ const portfolioServices = [
   { id: 18, title: "College programs" },
   { id: 19, title: "Mall Promotions" },
 ];
+
+const ServiceItem = ({ item, index }) => {
+  const flexDirection = index % 2 === 0 ? "lg:flex-row-reverse" : "lg:flex-row";
+  
+  return (
+    <div
+      className={`dark:bg-[#2c2c2c] bg-gray-50 shadow-lg transition-colors duration-200 dark:text-white text-black rounded-xl flex flex-col m-4 md:m-8 items-stretch justify-evenly ${flexDirection}`}
+    >
+      <div className="lg:w-1/2">
+        <Image
+          src={item.image}
+          className="rounded-xl w-full h-full object-cover"
+          alt={item.title}
+        />
+      </div>
+      <div className="lg:w-1/2 p-8 lg:p-16 flex flex-col items-start justify-center gap-6 font-serif">
+        <div className="font-bold text-5xl md:text-6xl text-blue-400 font-sans">
+          {item.number}
+        </div>
+        <h3 className="text-2xl lg:text-4xl font-semibold">{item.title}</h3>
+        <ul className="space-y-2">
+          {item.description.map((desc) => (
+            <li key={desc.id} className="flex items-start">
+              <FontAwesomeIcon icon={faForward} className="mr-2 mt-1 flex-shrink-0" />
+              <span>{desc.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
 export default function Services() {
   const [showAll, setShowAll] = useState(false);
@@ -200,38 +233,10 @@ export default function Services() {
         data-aos-duration="500"
         className="flex flex-col items-center justify-center xl:px-20"
       >
-        {services.map((item, index) => {
-          const flexDirection =
-            index % 2 === 0 ? "lg:flex-row-reverse" : "lg:flex-row";
-          return (
-            <div
-              key={item.id}
-              className={`dark:bg-[#2c2c2c]  bg-gray-50 drop-shadow-xl shadow-slate-700 transition-colors duration-200 dark:text-white text-black rounded-xl flex flex-col m-4 md:m-8 items-stretch justify-evenly ${flexDirection}`}
-            >
-              <Image
-                src={item.image}
-                className="rounded-xl lg:w-6/12"
-                alt={item.title}
-              />
-              <div className="lg:w-6/12 p-8 lg:p-16 flex flex-col items-start justify-center gap-6 font-serif">
-                <div className="font-bold text-5xl md:text-6xl text-blue-400 font-sans">
-                  {item.number}
-                </div>
-                <div className=" text-2xl lg:text-4xl font-semibold">{item.title}</div>
-                {/* <div className="text-justify">{item.description}</div> */}
-                <div className="flex flex-col items-start justify-center gap-2">
-                    {
-                        item.description.map((desc, index) => (
-                            <div key={index}>
-                                <FontAwesomeIcon icon={faForward} className="mr-2" /><span>{desc.text}</span>
-                            </div>
-                        ))
-                    }
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {services.map((item, index) => (
+            <ServiceItem key={item.id} item={item} index={index} />
+          )
+        )}
       </div>
       <ExpertiseHighlights />
       <AdditionalServices />

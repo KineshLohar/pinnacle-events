@@ -5,44 +5,44 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 
-import nextJsLogo from '../../../public/static/images/nextjslogo.svg'
+import nextJsLogo from "../../../public/static/images/nextjslogo.svg";
 
-import { SocialIcon } from 'react-social-icons'
+import { SocialIcon } from "react-social-icons";
 const socials = [
   {
-      id: 1,
-      name: "Facebook",
-      path: "https://www.facebook.com/pinnacle.events/",
-      icon: 'fa-brands fa-facebook',
-      color : "#0355e2"
+    id: 1,
+    name: "Facebook",
+    path: "https://www.facebook.com/pinnacle.events/",
+    icon: "fa-brands fa-facebook",
+    color: "#0355e2",
   },
   {
-      id: 2,
-      name: "Instagram",
-      path: "https://www.instagram.com/pinnacle.events/",
-      icon: 'fa-brands fa-instagram',
-      color : "#0355e2"
+    id: 2,
+    name: "Instagram",
+    path: "https://www.instagram.com/pinnacle.events/",
+    icon: "fa-brands fa-instagram",
+    color: "#0355e2",
   },
   {
-      id: 3,
-      name: "LinkedIn",
-      path: "https://www.linkedin.com/company/pinnacle-events/",
-      icon: 'fa-brands fa-linkedin',
+    id: 3,
+    name: "LinkedIn",
+    path: "https://www.linkedin.com/company/pinnacle-events/",
+    icon: "fa-brands fa-linkedin",
   },
   {
-      id: 4,
-      name: "Twitter",
-      path: "https://twitter.com/pinnacle_events",
-      icon: 'fa-brands fa-twitter',
-      color : "#0355e2"
+    id: 4,
+    name: "Twitter",
+    path: "https://twitter.com/pinnacle_events",
+    icon: "fa-brands fa-twitter",
+    color: "#0355e2",
   },
   {
-      id: 5,
-      name: "YouTube",
-      path: "https://www.youtube.com/channel/UC-99999999",
-      icon: 'fa-brands fa-youtube',
-      color : "#0355e2"
-  }
+    id: 5,
+    name: "YouTube",
+    path: "https://www.youtube.com/channel/UC-99999999",
+    icon: "fa-brands fa-youtube",
+    color: "#0355e2",
+  },
 ];
 
 const Footer = () => {
@@ -54,12 +54,22 @@ const Footer = () => {
         </div>
 
         <div className="flex justify-center">
-        {socials.map((social) => (      
-                            <Link key={social.id} href={social.path} legacyBehavior className=" z-10">                      
-                                {/* <FontAwesomeIcon icon={social.icon} height='2rem' /> */}
-                                <SocialIcon url={social.path} className="mr-4 hover:-translate-y-1 transition-all" bgColor='black' style={{height : '2rem', width : '2rem'}} />
-                            </Link>
-                        ))}
+          {socials.map((social) => (
+            <Link
+              key={social.id}
+              href={social.path}
+              legacyBehavior
+              className=" z-10"
+            >
+              {/* <FontAwesomeIcon icon={social.icon} height='2rem' /> */}
+              <SocialIcon
+                url={social.path}
+                className="mr-4 hover:-translate-y-1 transition-all"
+                bgColor="black"
+                style={{ height: "2rem", width: "2rem" }}
+              />
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -67,18 +77,16 @@ const Footer = () => {
         <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="text-justify">
             <h6 className="mb-4 flex items-center justify-start text-justify font-bold md:justify-start">
-              <span className="me-3 [&>svg]:h-4 [&>svg]:w-4">
-                LOGO
-              </span>
+              <span className="me-3 [&>svg]:h-4 [&>svg]:w-4">LOGO</span>
               PINNACLE EVENTS
             </h6>
             <p>
-            Pinnacle Events is a one-stop destination for unforgettable events.
-                    Whether you are looking for a place to stay, a place to eat, or a
-                    place to dine, Pinnacle Events is the place to find the perfect venue
-                    for you.
+              Pinnacle Events is a one-stop destination for unforgettable
+              events. Whether you are looking for a place to stay, a place to
+              eat, or a place to dine, Pinnacle Events is the place to find the
+              perfect venue for you.
             </p>
-            <p>GSTIN : 1234567890</p>
+            {/* <p>GSTIN : 1234567890</p> */}
           </div>
 
           <div>
@@ -108,21 +116,22 @@ const Footer = () => {
             </h6>
             <p className="mb-4 flex items-center justify-start">
               <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
-              <FontAwesomeIcon icon={faHouse} />
+                <FontAwesomeIcon icon={faHouse} />
               </span>
-              481/2 Ahmedabad Gujarat 382481
+              B – 404 Anjanee Residency , Nr parth bungalow, Sainik Circle, Nava
+              Naroda Ahmedabad - 382345
             </p>
             <p className="mb-4 flex items-center justify-start">
-            <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
-            <FontAwesomeIcon icon={faEnvelope} />
-            </span>
-             ravi130489@gmail.com
+              <span className="me-3 [&>svg]:h-5 [&>svg]:w-5 mt-2">
+                <FontAwesomeIcon icon={faEnvelope} />
+              </span>
+              pinnaclevent13@gmail.com
             </p>
             <p className="mb-4 flex items-center justify-start">
-              <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
-              <FontAwesomeIcon icon={faPhone} />
+              <span className="me-3 [&>svg]:h-5 [&>svg]:w-5 mt-2">
+                <FontAwesomeIcon icon={faPhone} />
               </span>
-              08200693373
+              +91 82006 93373
             </p>
             {/* <p className="flex items-center justify-center md:justify-start">
               <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
@@ -147,11 +156,28 @@ const Footer = () => {
       <div className="bg-black/5 p-6 italic text-center md:flex md:items-center md:justify-center">
         <span>© 2023 Copyright:</span>
         <a className="font-semibold" href="https://tw-elements.com/">
-          Pinnacle Events 
+          Pinnacle Events
         </a>
-        <span className="ml-2 flex items-center justify-center ">Developed using <Image src={nextJsLogo} height={50} width={50} className="mx-2" alt='nextlogo' /> by @Kinesh Lohar</span>
+        <span className="ml-2 flex items-center justify-center ">
+          Developed using{" "}
+          <Image
+            src={nextJsLogo}
+            height={50}
+            width={50}
+            className="mx-2"
+            alt="nextlogo"
+          />{" "}
+          by{" "}
+          <Link
+            href="https://www.linkedin.com/in/kineshlohar/"
+            target="_blank"
+            className=" text-blue-500 ml-1"
+          >
+            {" "}
+            @Kinesh Lohar
+          </Link>
+        </span>
       </div>
-    
     </footer>
   );
 };

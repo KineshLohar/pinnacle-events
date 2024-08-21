@@ -13,7 +13,9 @@ const DividerComp =() => {
       // data-aos='fade-up'
       // data-aos-delay='50'
       // data-aos-duration="500"
-      className="w-12/12 h-[4px] mx-auto bg-[linear-gradient(to_right,theme(colors.pink.600),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] animate-gradient opacity-45 border-0 rounded " />
+      className="w-4/12 h-1 bg-black dark:bg-white  mx-auto rounded-lg"
+      // className="w-12/12 h-[4px] mx-auto bg-[linear-gradient(to_right,theme(colors.pink.600),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] animate-gradient opacity-45 border-0 rounded " 
+      />
   )
   }
 
@@ -21,7 +23,7 @@ export default function Home() {
   return (
     <>
     <Hero />
-    <DividerComp />
+    {/* <DividerComp /> */}
     <About />
     <DividerComp />
     <Services />
@@ -30,6 +32,7 @@ export default function Home() {
     <Totals />
     <DividerComp />
     <PortfolioSection />
+    <DividerComp />
     <Testimonials />
     <DividerComp />
     <Contact />

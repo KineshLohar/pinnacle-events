@@ -2,13 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import CallToAction from "../_components/CTA/CallToAction";
+import heroBg from '../../public/static/images/about-us-bg.jpg';
+import about2 from '../../public/static/images/about-2.jpg';
+import pfp from '../../public/static/images/pfp.jpg'
 
 const AboutUs = () => {
   return (
     <div className=" bg-primaryLight dark:bg-primaryDark text-black dark:text-white py-16 lg:pt-20 flex flex-col justify-center items-center transition-colors duration-200 ">
       <div className="relative h-[60vh] w-full">
         <Image
-          src="/images/hero-event.jpg"
+          src={heroBg}
           layout="fill"
           objectFit="cover"
           alt="Pinnacle Events Showcase"
@@ -48,7 +51,7 @@ const AboutUs = () => {
             <div className="relative overflow-hidden rounded-xl shadow-2xl group">
               <Image
                 // src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                src=''
+                src={about2}
                 layout="fill"
                 objectFit="cover"
                 alt="Pinnacle Events Team"
@@ -124,7 +127,7 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <Image
-                src="/images/team-member-1.jpg"
+                src={pfp}
                 width={200}
                 height={200}
                 objectFit="cover"
@@ -140,7 +143,7 @@ const AboutUs = () => {
             </div>
             <div className="text-center">
               <Image
-                src="/images/team-member-2.jpg"
+                src={pfp}
                 width={200}
                 height={200}
                 objectFit="cover"
@@ -155,7 +158,7 @@ const AboutUs = () => {
             </div>
             <div className="text-center">
               <Image
-                src="/images/team-member-3.jpg"
+                src={pfp}
                 width={200}
                 height={200}
                 objectFit="cover"
@@ -187,7 +190,7 @@ const AboutUs = () => {
               </p>
               <div className="flex items-center">
                 <Image
-                  src="/images/client-1.jpg"
+                  src={pfp}
                   width={50}
                   height={50}
                   objectFit="cover"
@@ -208,7 +211,7 @@ const AboutUs = () => {
               </p>
               <div className="flex items-center">
                 <Image
-                  src="/images/client-2.jpg"
+                  src={pfp}
                   width={50}
                   height={50}
                   objectFit="cover"

@@ -107,7 +107,7 @@ export default function ContactPageForm(){
           data-aos-duration="500"
           className="w-full md:w-6/12  bg-gradient-to-r from-violet-50 to-pink-50 rounded-xl">
             {/* <div className="mb-6 lg:text-2xl font-bold mx-4">Our Location</div> */}
-           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117477.53492821137!2d72.47040831871179!3d23.054119499120837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848ac8a7faf3%3A0xe0e23928ee7635dc!2sJ%20S%20Projects%20%26%20Fiscal%20Services%20Private%20Limited!5e0!3m2!1sen!2sin!4v1715066388098!5m2!1sen!2sin" 
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m2!1m3!1d117477.53492821137!2d72.47040831871179!3d23.054119499120837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848ac8a7faf3%3A0xe0e23928ee7635dc!2sJ%20S%20Projects%20%26%20Fiscal%20Services%20Private%20Limited!5e0!3m2!1sen!2sin!4v1715066388098!5m2!1sen!2sin" 
            width="100%" 
            height='490' 
            className='rounded-2xl'

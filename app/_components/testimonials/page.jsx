@@ -56,7 +56,7 @@ const sampleTestimonials = [
 
 const Testimonials = () => {
   return (
-    <div className=" bg-[#191919] text-white py-24 flex flex-col justify-center items-center">
+    <div className=" bg-primaryLight dark:bg-primaryDark dark:text-white py-24 flex flex-col justify-center items-center transition-colors duration-200 ">
       <div className=" text-3xl md:text-4xl lg:text-5xl text-center font-serif font-semibold">
         What our clients have to say
       </div>
@@ -70,9 +70,9 @@ const Testimonials = () => {
       <div className="flex flex-wrap w-full items-stretch gap-6 mt-4 justify-center">
         {
           sampleTestimonials.map((testimonial) => (
-                      <div key={testimonial.id} className="flex flex-col items-start justify-center px-8 py-4 border-neutral-700 bg-neutral-800 border-2 rounded-lg w-5/6 md:w-2/5 lg:w-1/4">
-                        <div className="text-2xl font-semibold">{testimonial.name}</div>
-                        <div className="">{testimonial.head}</div>
+                      <div key={testimonial.id} className="flex flex-col items-start justify-center px-8 py-4 dark:border-neutral-700 bg-white dark:bg-neutral-800 border-2 rounded-lg w-5/6 md:w-2/5 lg:w-1/4 transition-colors duration-200">
+                        <div className="text-2xl font-semibold text-black dark:text-white">{testimonial.name}</div>
+                        <div className="text-black dark:text-white">{testimonial.head}</div>
                         {/* <div className="text-gray-400">{testimonial.company}</div> */}
                         <div className=" text-lg text-gray-500 text-pretty">{testimonial.testimonial}</div>
                       </div>

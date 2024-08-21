@@ -20,7 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-    <body className="m-0 bg-white overflow-y-scroll">
+    <body className="m-0 bg-primaryLight dark:bg-primaryDark overflow-y-scroll transition-colors duration-200">
       <Providers>
       <ThemeProvider>
         <nav>

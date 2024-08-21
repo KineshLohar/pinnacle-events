@@ -79,7 +79,7 @@ const Contact = () => {
       data-aos='fade-up'
       data-aos-delay='50'
       data-aos-duration="500"
-      className="text-4xl md:text-4xl lg:text-6xl font-bold mb-16">
+      className="text-4xl md:text-4xl lg:text-6xl font-bold mb-16 dark:text-white">
         Contact Us
       </div>
       <div className="flex flex-col justify-center items-center text-center w-full md:flex-row md:text-left ">
@@ -88,17 +88,17 @@ const Contact = () => {
         data-aos-delay='50'
         data-aos-duration="500"
         className="w-12/12 md:w-5/12">
-          <div className="text-3xl md:text-5xl mt-10 mb-6 lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 to-gray-700">
+          <div className="text-3xl md:text-5xl mt-10 mb-6 lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-purple-600 ">
             Have a discussion with us!!
           </div>
           <div className="text-lg md:text-xl font-serif ">
             <div className=" flex flex-col mb-2">
-              <div className=" text-gray-500 ">Phone</div>
-              <div className={` ${plusJakartaSans.className}`}>+91 94276 07621</div>
+              <div className=" text-gray-500 dark:text-slate-50 ">Phone</div>
+              <div className={` ${plusJakartaSans.className} dark:text-white`}>+91 82006 93373</div>
             </div>
             <div>
-              <div className=" text-gray-500">Email</div>
-              <div className={` ${plusJakartaSans.className}`}>Js@jsplacement.com</div>
+              <div className=" text-gray-500 dark:text-slate-50">Email</div>
+              <div className={` ${plusJakartaSans.className} dark:text-white`}>pinnaclevent13@gmail.com</div>
             </div>
             {/* <div> <span className=" text-gray-800">+91 94276 07621</span></div>
             <div><span className=" text-gray-800">js@jsplacement.com</span></div> */}
