@@ -6,44 +6,10 @@ import React from "react";
 import Image from "next/image";
 
 import nextJsLogo from "../../../public/static/images/nextjslogo.svg";
+import pinnacleLogo from '../../../public/static/images/pinnacleLogo.png';
 
 import { SocialIcon } from "react-social-icons";
-const socials = [
-  {
-    id: 1,
-    name: "Facebook",
-    path: "https://www.facebook.com/pinnacle.events/",
-    icon: "fa-brands fa-facebook",
-    color: "#0355e2",
-  },
-  {
-    id: 2,
-    name: "Instagram",
-    path: "https://www.instagram.com/pinnacle.events/",
-    icon: "fa-brands fa-instagram",
-    color: "#0355e2",
-  },
-  {
-    id: 3,
-    name: "LinkedIn",
-    path: "https://www.linkedin.com/company/pinnacle-events/",
-    icon: "fa-brands fa-linkedin",
-  },
-  {
-    id: 4,
-    name: "Twitter",
-    path: "https://twitter.com/pinnacle_events",
-    icon: "fa-brands fa-twitter",
-    color: "#0355e2",
-  },
-  {
-    id: 5,
-    name: "YouTube",
-    path: "https://www.youtube.com/channel/UC-99999999",
-    icon: "fa-brands fa-youtube",
-    color: "#0355e2",
-  },
-];
+import { socials } from "@/app/Socials";
 
 const Footer = () => {
   return (
@@ -77,8 +43,9 @@ const Footer = () => {
         <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="text-justify">
             <h6 className="mb-4 flex items-center justify-start text-justify font-bold md:justify-start">
-              <span className="me-3 [&>svg]:h-4 [&>svg]:w-4">LOGO</span>
-              PINNACLE EVENTS
+              <span className="me-3 [&>svg]:h-4 [&>svg]:w-4">
+              <Image src={pinnacleLogo} objectFit="cover" height={50} className=' dark:bg-transparent mix-blend-color-burn dark:mix-blend-normal rounded-sm' />
+              </span>
             </h6>
             <p>
               Pinnacle Events is a one-stop destination for unforgettable

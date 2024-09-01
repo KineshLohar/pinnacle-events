@@ -3,23 +3,28 @@ import Accordion from "./Accoridion"
 const questions = [
     {
         id: 1,
-        question: 'What programming languages do you support?',
-        answer: 'We support a diverse array of programming languages to cater to the needs of our developers. Our platform accommodates popular languages such as JavaScript, Python, Java, C++, and Ruby, among others. Additionally, we strive to stay updated with emerging languages and frameworks, ensuring our platform remains versatile and adaptable to evolving technological landscapes.'
+        question: 'What types of events does Pinnacle Events specialize in?',
+        answer: 'Pinnacle Events specializes in creating, planning, and executing a wide range of events including corporate functions, conferences, product launches, social gatherings, and more. We offer comprehensive services for both corporate events (such as conferences, seminars, and product launches) and social events (such as weddings, parties, and celebrations).'
     },
     {
         id: 2,
-        question: 'How do I get started with your API?',
-        answer: 'Getting started with our API is straightforward and well-documented to facilitate a seamless integration experience for developers. We provide comprehensive developer documentation, replete with detailed explanations of endpoints, authentication mechanisms, request and response formats, and usage examples in multiple programming languages. Furthermore, to expedite the integration process, we offer SDKs and libraries tailored to various languages, streamlining API usage and empowering developers to leverage our platform efficiently.'
+        question: 'What services does Pinnacle Events offer?',
+        answer: 'Pinnacle Events offers a comprehensive range of services including event planning and coordination, venue selection and management, catering services, audio-visual and technical support, concept development, budget management, timeline creation, vendor coordination, and on-site management. We provide end-to-end solutions for all aspects of event management.'
     },
     {
         id: 3,
-        question: 'Can I contribute to your open-source projects?',
-        answer: `'Absolutely! We enthusiastically welcome contributions from the vibrant open-source community. Our projects are hosted on popular platforms such as GitHub, providing a collaborative environment for developers worldwide. Whether it's submitting bug fixes, proposing new features, or enhancing existing functionality, we value and encourage community involvement. By fostering an open and inclusive ecosystem, we endeavor to harness the collective expertise and creativity of developers, enriching our projects and benefiting the broader community.'`
+        question: 'How does Pinnacle Events ensure the success of an event?',
+        answer: 'Pinnacle Events ensures event success through several key factors: our experienced and professional team, comprehensive service offerings, creative and innovative solutions, established vendor relationships, and meticulous attention to detail. We handle all aspects of event planning and coordination, allowing clients to focus on their guests and the content of the event rather than logistical details.'
     },
     {
         id: 4,
-        question: 'Do you provide technical support for developers?',
-        answer: `Yes, we are committed to providing robust technical support to empower developers in their endeavors. Our dedicated support team comprises knowledgeable professionals who are readily available to assist with any technical queries or challenges you may encounter. Whether it's troubleshooting integration issues, clarifying API functionality, or offering guidance on best practices, our support team is just a message away. You can reach out to us via various channels, including email, live chat, and community forums, ensuring prompt and personalized assistance tailored to your needs.`
+        question: 'What types of marketing services does Pinnacle Events provide?',
+        answer: 'Pinnacle Events offers a wide range of marketing services including experiential marketing, brand activation, direct marketing, digital advertising, M.I.C.E. (Meetings, Incentives, Conferences, and Exhibitions), in-store marketing, loyalty programs, mobile marketing, launch events, media buying, retail fabrication, sales acceleration programs, trade marketing, outdoor strategy and buying, and school/college programs.'
+    },
+    {
+        id: 5,
+        question: 'Does Pinnacle Events offer retail solutions?',
+        answer: 'Yes, Pinnacle Events offers comprehensive retail solutions. These include retail VM (Visual Merchandising) planning, designing and execution, retail fixtures & merchandise, in-shop promotions, catchment promos, and technology-based sampling. We focus on creating a sustained look and feel, encouraging in-store sales, and building customer loyalty.'
     }
 ];
 
@@ -37,7 +42,12 @@ export default function FAQ(){
             data-aos-duration="500"
             className='w-full text-black dark:text-white flex flex-col items-center justify-center text-center'>
                 <h3 className='font-bold text-4xl font-serif'>Frequently Asked Questions</h3>
-                <p className="px-8 lg:px-32 my-2 font-semibold opacity-70 text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem temporibus aut quia ipsa et fugiat odit impedit aliquid, numquam molestias perspiciatis voluptatem delectus nulla minima praesentium? Quisquam id totam ut.</p>
+<p className="px-8 lg:px-32 my-2 font-semibold opacity-70 text-center">
+  At Pinnacle Events, we understand you may have questions about our comprehensive event planning and management services. 
+  From corporate functions to social gatherings, our experienced team is dedicated to creating memorable experiences. 
+  Below, we've compiled answers to some common queries to help you understand how we can bring your vision to life, 
+  ensuring every detail is meticulously handled from concept to execution.
+</p>
             </div>
             <div className="w-full flex flex-col justify-center items-center gap-4 my-8">
                 {

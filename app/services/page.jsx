@@ -8,6 +8,9 @@ import ExpertiseHighlights from "./components/ExpertiseHighlights";
 import AdditionalServices from "./components/AdditionalServices";
 import ProcessAndCTA from './components/ProcessAndCTA';
 import pnc from '../../public/static/images/planning-and-coordination.jpg'
+import venSel from '../../public/static/images/venueSel.jpg';
+import techSup from '../../public/static/images/techSupport.jpg'
+import catServ from '../../public/static/images/catServ.jpg'
 
 const services = [
     {
@@ -31,7 +34,7 @@ const services = [
         { id: 2, text: "Contract negotiation and management" },
         { id: 3, text: "Venue setup and teardown" }
       ],
-      image: car,
+      image: venSel,
     },
     {
       id: 3,
@@ -42,7 +45,7 @@ const services = [
         { id: 2, text: "Coordination with catering vendors" },
         { id: 3, text: "On-site catering management" }
       ],
-      image: car,
+      image: catServ,
     },
     {
       id: 4,
@@ -53,7 +56,7 @@ const services = [
         { id: 2, text: "Lighting and sound design" },
         { id: 3, text: "Technical support during the event" }
       ],
-      image: car,
+      image: techSup,
     }
   ];
   

@@ -77,6 +77,10 @@ const GallerySection = () => {
     fetchEvents(nextPage);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <section className="py-16 px-4 pt-28 lg:px-8 bg-primaryLight dark:bg-primaryDark text-black dark:text-white">
       <div className="container mx-auto">
@@ -142,7 +146,7 @@ const GallerySection = () => {
                   </div>
                   <div className="p-6 flex-grow">
                     <h3 className="text-xl font-semibold mb-2">
-                      {event.title}
+                      {capitalizeFirstLetter(event?.title)}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 mb-4">
                       {event.description}
@@ -209,7 +213,7 @@ const GallerySection = () => {
                 </button>
 
                 <h2 className="text-3xl font-bold mb-6 mt-2">
-                  {selectedEvent?.title}
+                  {capitalizeFirstLetter(selectedEvent?.title)}
                 </h2>
 
                 <div className="grid grid-cols-1 gap-6 mb-6">

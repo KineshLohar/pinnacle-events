@@ -31,17 +31,17 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <div
-        className={`bg-indigo-800 text-white w-64 h-[35rem] mt-20 py-7 px-2 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
+        className={`bg-indigo-800 text-white w-64 h-[40rem] mt-20 py-7 px-2 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:relative md:translate-x-0`}
       >
         <button
           onClick={() => setIsSidebarOpen(false)}
-          className="block w-full py-2.5 px-4 rounded transition duration-200 hover:bg-indigo-700 focus:bg-indigo-700 focus:outline-none text-left"
+          className="block lg:hidden w-full py-2.5 px-4 rounded transition duration-200 hover:bg-indigo-700 focus:bg-indigo-700 focus:outline-none text-left"
         >
           X
         </button>
-        <nav className="space-y-2">
+        <nav className="">
           <Link href="/admin/dashboard" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-indigo-700 focus:bg-indigo-700 focus:outline-none">
             Dashboard
           </Link>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import carImage from "../../../public/static/images/car.jpg";
+import whoWeAre from '../../../public/static/images/whoweare.jpg'
 
 import Image from "next/image";
 
@@ -9,9 +10,9 @@ const About = () => {
       
       <div className="lg:w-6/12 lg:h-[70vh] lg:py-4 lg:flex lg:items-center lg:justify-center">
         <Image
-          src={carImage}
+          src={whoWeAre}
           alt="hero Image"
-          className=" object-cover m-auto rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.55)]"
+          className=" object-cover m-auto rounded-md shadow-[0_2px_4px_rgb(0,0,0,0.55)]"
         />
       </div>
       <div className="flex flex-col items-center justify-center text-center pt-12 lg:pt-0 lg:pl-20 lg:w-6/12 lg:text-right lg:items-end lg:justify-center lg:h-[70vh]">

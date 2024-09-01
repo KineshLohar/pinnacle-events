@@ -119,7 +119,7 @@ const AboutUs = () => {
       </section>
 
       {/* team */}
-      <section className="bg-primaryLight dark:bg-primaryDark py-16 px-4 md:px-24 transition-colors duration-200">
+      {/* <section className="bg-primaryLight dark:bg-primaryDark py-16 px-4 md:px-24 transition-colors duration-200">
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
             Meet Our Team
@@ -174,7 +174,7 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* testimonials */}
       <section className="py-16 px-4 md:px-24 bg-primaryLight dark:bg-primaryDark transition-colors duration-200">

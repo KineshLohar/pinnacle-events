@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SocialIcon } from "react-social-icons";
 import ContactPageForm from "./_components/contactForm/page";
 import FAQ from "./_components/faq/Faq";
+import { socials } from "../Socials";
 
 const DividerComp =() => {
     return (
@@ -17,42 +18,7 @@ const DividerComp =() => {
 
 export default function Contact(){
 
-    const socials = [
-        {
-            id: 1,
-            name: "Facebook",
-            path: "https://www.facebook.com/pinnacle.events/",
-            icon: 'fa-brands fa-facebook',
-            color : "#0355e2"
-        },
-        {
-            id: 2,
-            name: "Instagram",
-            path: "https://www.instagram.com/pinnacle.events/",
-            icon: 'fa-brands fa-instagram',
-            color : "#0355e2"
-        },
-        {
-            id: 3,
-            name: "LinkedIn",
-            path: "https://www.linkedin.com/company/pinnacle-events/",
-            icon: 'fa-brands fa-linkedin',
-        },
-        // {
-        //     id: 4,
-        //     name: "Twitter",
-        //     path: "https://twitter.com/pinnacle_events",
-        //     icon: 'fa-brands fa-twitter',
-        //     color : "#0355e2"
-        // },
-        // {
-        //     id: 5,
-        //     name: "YouTube",
-        //     path: "https://www.youtube.com/channel/UC-99999999",
-        //     icon: 'fa-brands fa-youtube',
-        //     color : "#0355e2"
-        // }
-      ];
+    
 
     return (
         <div className="bg-primaryLight dark:bg-primaryDark text-white w-full flex flex-col items-center justify-center lg:p-20 pt-[7rem] lg:pt-[7rem] pb-16">
@@ -72,16 +38,16 @@ export default function Contact(){
                     <FontAwesomeIcon icon={faPhoneVolume} style={{color: "#7950f7",}} className="h-12" />
                     <div className=" font-bold text-2xl font-sans text-black">Our Contact Number</div>
                     <div className='font-medium text-gray-500 opacity-70' >
-                        <div>+91 99999 00000</div>
-                        <div>+91 99999 00000</div>
+                        <div>+91 82006 93373</div>
+                        {/* <div>+91 99999 00000</div> */}
                     </div>
                 </div>
                 <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-10 px-14 rounded-lg text-left drop-shadow-md shadow-slate-200  bg-gradient-to-r from-violet-50 to-pink-50">
                     <FontAwesomeIcon icon={faEnvelope} style={{color: "#794dff",}} className="h-12"/>
                     <div className=" font-bold text-2xl font-sans text-black">Our Email Address</div>
                     <div className='font-medium text-gray-500 opacity-70'>
-                        <div>+91 99999 00000</div>
-                        <div>+91 99999 00000</div>
+                        <div>pinnaclevent13@gmail.com</div>
+                        {/* <div>+91 99999 00000</div> */}
                     </div>
                 </div>
                 <div className="md:w-4/12 flex flex-col gap-2 justify-center items-start p-10 px-14 rounded-lg text-left drop-shadow-md shadow-slate-200 bg-gradient-to-r from-violet-50 to-pink-50">

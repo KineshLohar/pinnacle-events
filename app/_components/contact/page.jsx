@@ -6,6 +6,7 @@ import { SocialIcon } from 'react-social-icons'
 import { sendEmail } from "@/app/emailjs";
 import { toast } from "react-toastify";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { socials } from "@/app/Socials";
 
 const plusJakartaSans = Plus_Jakarta_Sans(
   {
@@ -33,42 +34,6 @@ const Contact = () => {
       .required("Message is required!"),
   });
 
-  const socials = [
-    {
-        id: 1,
-        name: "Facebook",
-        path: "https://www.facebook.com/pinnacle.events/",
-        icon: 'fa-brands fa-facebook',
-        color : "#0355e2"
-    },
-    {
-        id: 2,
-        name: "Instagram",
-        path: "https://www.instagram.com/pinnacle.events/",
-        icon: 'fa-brands fa-instagram',
-        color : "#0355e2"
-    },
-    {
-        id: 3,
-        name: "LinkedIn",
-        path: "https://www.linkedin.com/company/pinnacle-events/",
-        icon: 'fa-brands fa-linkedin',
-    },
-    // {
-    //     id: 4,
-    //     name: "Twitter",
-    //     path: "https://twitter.com/pinnacle_events",
-    //     icon: 'fa-brands fa-twitter',
-    //     color : "#0355e2"
-    // },
-    // {
-    //     id: 5,
-    //     name: "YouTube",
-    //     path: "https://www.youtube.com/channel/UC-99999999",
-    //     icon: 'fa-brands fa-youtube',
-    //     color : "#0355e2"
-    // }
-];
 
   return (
     <div
@@ -92,13 +57,13 @@ const Contact = () => {
             Have a discussion with us!!
           </div>
           <div className="text-lg md:text-xl font-serif ">
-            <div className=" flex flex-col mb-2">
-              <div className=" text-gray-500 dark:text-slate-50 ">Phone</div>
-              <div className={` ${plusJakartaSans.className} dark:text-white`}>+91 82006 93373</div>
+          <div className="flex flex-col">
+              <span className="text-gray-500 dark:text-gray-400">Phone</span>
+              <span className={`${plusJakartaSans.className} dark:text-white`}>+91 82006 93373</span>
             </div>
-            <div>
-              <div className=" text-gray-500 dark:text-slate-50">Email</div>
-              <div className={` ${plusJakartaSans.className} dark:text-white`}>pinnaclevent13@gmail.com</div>
+            <div className="flex flex-col">
+              <span className="text-gray-500 dark:text-gray-400">Email</span>
+              <span className={`${plusJakartaSans.className} dark:text-white`}>pinnaclevent13@gmail.com</span>
             </div>
             {/* <div> <span className=" text-gray-800">+91 94276 07621</span></div>
             <div><span className=" text-gray-800">js@jsplacement.com</span></div> */}

@@ -3,26 +3,29 @@
 import Link from 'next/link'
 // import { Player } from '@lottiefiles/react-lottie-player';
 import sampleImage from '../../../public/static/images/car.jpg'
+import planAndCord from '../../../public/static/images/planning-and-coordination.jpg'
+import techSupport from '../../../public/static/images/techSupport.jpg'
+import venueSel from '../../../public/static/images/venueSel.jpg'
 import Image from 'next/image';
 
 const servicesData = [
     {
         id : 1,
-        title : 'Talent Acquisition',
-        description : 'We provide comprehensive talent acquisition solutions, including candidate sourcing, screening, and interviewing, to ensure that your organization has access to the best candidates.',
-        image : sampleImage
+        title : 'Event Planning and Coordination',
+        description : '"We handle event planning with creative themes, budget management, scheduling, and vendor coordination.',
+        image : planAndCord
     },
     {
         id : 2,
-        title : 'Manpower Sourcing',
-        description : 'We specialize in finding the right talent for your organization, sourcing candidates who match your specific requirements and needs.',
-        image : sampleImage
+        title : 'Venue Selection and Management',
+        description : 'We assist with venue selection, contract negotiations, and setup to ensure a smooth event.',
+        image : venueSel
     },
     {
         id : 3,
-        title : 'Recruitment Solutions',
-        description : 'Our recruitment solutions are customized to meet your specific needs. We offer end-to-end recruitment services including candidate sourcing, screening, interviewing, and onboarding.',
-        image : sampleImage
+        title : 'Audio-Visual and Technical Support',
+        description : 'We offer AV equipment, lighting and sound design, and on-site technical support.',
+        image : techSupport
     },
 
 ]
@@ -55,7 +58,7 @@ export default function Services(){
                         return (
                         <div
                         
-                        key={item.id} className=' w-full bg-white dark:bg-primaryDark border-gray-300 border-2 my-4 lg:m-4 rounded-2xl lg:w-4/12 hover:scale-105 transition-all shadow-[0_3px_10px_rgb(0,0,0,0.2)]'>
+                        key={item.id} className=' w-full bg-white dark:bg-[#2c2c2c]  my-4 lg:m-4 rounded-2xl lg:w-4/12 hover:scale-105 transition-all shadow-[0_3px_10px_rgb(0,0,0,0.2)]'>
                             {/* <Image src={item.image} alt='Services card' className=' rounded-t-xl' /> */}
                             <Image
                             src={item.image}

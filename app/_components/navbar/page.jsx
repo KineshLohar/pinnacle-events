@@ -7,6 +7,8 @@ import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import pinnacleLogo from '../../../public/static/images/pinnacleLogo.png'
+import Image from "next/image";
 
 const playfair_display = Playfair_Display({
   subsets: ["latin"],
@@ -83,7 +85,9 @@ export default function Navbar() {
       <div
         className={` fixed  top-0 z-10 bg-white dark:bg-black text-black transition-colors duration-200 dark:text-white backdrop-filter backdrop-blur-lg w-full h-20 lg:px-28 flex justify-between items-center ${playfair_display?.className}`}
       >
-        <div className="p-4 ml-4 lg:p-0 lg:ml-0">Pinnacle Events</div>
+        <div className="p-2 sm:p-4 ml-2 sm:ml-4 lg:p-0 lg:ml-0 bg-transparent">
+          <Link href='/' ><Image src={pinnacleLogo} objectFit="cover" height={50} className=' dark:bg-transparent rounded-sm' /></Link>
+        </div>
         <div className=" hidden lg:flex lg:justify-between lg:items-center">
           {webRoutes.map((nav) => {
             return (
@@ -101,12 +105,12 @@ export default function Navbar() {
           </button> */}
         </div>
 
-        <button onClick={toggleTheme} className="ml-8 text-2xl mb-2 lg:mb-0 lg:text-3xl mr-20 mt-2 px-2 py-1 bg-gray-800 dark:bg-slate-50 rounded-md">
+        <button onClick={toggleTheme} className="ml-8 text-2xl mb-2 lg:mb-0 lg:text-3xl mr-16 sm:mr-20 mt-2 px-2 py-1 bg-gray-800 dark:bg-slate-50 rounded-md">
             <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} size='lg' className=" text-white dark:text-black" />
-          </button>
+        </button>
           <FontAwesomeIcon
           onClick={() => handleToggle()}
-          icon={faBars} size='2xl' className="fixed z-30 flex items-center cursor-pointer right-10 top-6 lg:hidden" />
+          icon={faBars} size='2xl' className="fixed z-30 flex items-center cursor-pointer right-5 sm:right-10 top-6 lg:hidden" />
 
 
           
