@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import Image from "next/image";
 
 export function Hero() {
   const lineRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -49,7 +50,26 @@ export function Hero() {
 
   return (
     <section className="relative pt-40 pb-24 md:pt-48 md:pb-32 overflow-hidden">
-      <Container>
+
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/hero/hero-bg.jpg"
+          alt="Pinnacle Events corporate activation in execution"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        {/* Directional scrim: ~0% opacity left edge -> ~68% opacity right edge */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(9,9,9,0) 0%, rgba(9,9,9,0.28) 45%, rgba(9,9,9,0.68) 100%)",
+          }}
+        />
+      </div>
+      <Container className="relative z-10">
         <div ref={bracketRef} className="corner-brackets absolute inset-x-5 top-32 bottom-8 md:inset-x-8 pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
