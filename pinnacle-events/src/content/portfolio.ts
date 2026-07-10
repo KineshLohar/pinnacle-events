@@ -1,16 +1,8 @@
-export type CaseStudy = {
-  title: string;
-  slug: string;
-  client: string;
-  location: string;
-  category: string;
-  objective: string;
-  challenge: string;
-  execution: string;
-  outcome: string;
-};
+import { caseStudySchema, type CaseStudy } from "@/lib/schemas";
 
-export const caseStudies: CaseStudy[] = [
+type RawCaseStudy = Omit<CaseStudy, "id" | "images" | "featured" | "sortOrder">;
+
+const rawCaseStudies: RawCaseStudy[] = [
   {
     title: "TVS Eurogrip — Nationwide Dealer Meet",
     slug: "tvs-eurogrip-dealer-meet",
@@ -71,6 +63,22 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
+export const caseStudies: CaseStudy[] = rawCaseStudies.map((c, i) => ({
+  ...c,
+  id: c.slug,
+  images: [],
+  featured: i < 4,
+  sortOrder: i,
+}));
+
+if (process.env.NODE_ENV !== "production") {
+  caseStudies.forEach((c) => caseStudySchema.parse(c));
+}
+
 export function getCaseStudyBySlug(slug: string) {
   return caseStudies.find((c) => c.slug === slug);
+}
+
+export function getFeaturedCaseStudies() {
+  return caseStudies.filter((c) => c.featured);
 }

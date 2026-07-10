@@ -1,20 +1,15 @@
-export type Service = {
-  name: string;
-  slug: string;
-  category: string;
-  overview: string;
-  benefits: string[];
-  process: string[];
-  faqs: { q: string; a: string }[];
-};
+import { serviceSchema, type Service } from "@/lib/schemas";
 
-export const services: Service[] = [
+type RawService = Omit<Service, "id" | "sortOrder" | "featured">;
+
+const rawServices: RawService[] = [
   {
     name: "Corporate Events",
     slug: "corporate-events",
     category: "Corporate & MICE",
     overview:
       "From annual conferences to town halls and leadership offsites, we plan and execute corporate events that reflect the standards of the organizations we work with.",
+    tagline: "Conferences, town halls and celebrations executed with the precision a corporate stage demands.",
     benefits: [
       "Single point of accountability across planning and execution",
       "Venue sourcing and negotiation across major Indian cities",
@@ -65,6 +60,7 @@ export const services: Service[] = [
     category: "Brand & Retail",
     overview:
       "Launch events choreographed to build anticipation and deliver a moment worthy of the product -- from reveal mechanics to media and guest management.",
+    tagline: "Launch moments choreographed for maximum impact, from concept to the final applause.",
     benefits: ["End-to-end launch choreography", "Media and guest list management", "Stage, AV and reveal engineering"],
     process: ["Concept", "Production design", "Rehearsal", "Live execution"],
     faqs: [
@@ -77,6 +73,7 @@ export const services: Service[] = [
     category: "Campaigns & Outreach",
     overview:
       "Immersive brand experiences built to convert attention into recall -- pop-ups, interactive installations and campaign tours.",
+    tagline: "Immersive brand experiences engineered to convert footfall into measurable brand recall.",
     benefits: ["Custom experience design", "Fabrication in-house", "Data capture and campaign reporting"],
     process: ["Insight", "Experience design", "Build", "Tour execution", "Reporting"],
     faqs: [{ q: "Can this run as a multi-city tour?", a: "Yes, we regularly manage multi-week, multi-city experiential tours." }],
@@ -87,6 +84,7 @@ export const services: Service[] = [
     category: "Brand & Retail",
     overview:
       "In-store branding and retail environment design that reinforces brand presence at the point of sale, executed consistently across outlet networks.",
+    tagline: "High-footfall retail moments and mall promotions built for daily-traffic environments.",
     benefits: ["Standardized in-store kits", "Pan-India installation network", "Quality audits post-installation"],
     process: ["Design", "Kit production", "Rollout scheduling", "Installation", "Audit"],
     faqs: [{ q: "How many outlets can you cover?", a: "Our vendor network supports rollouts across hundreds of outlets simultaneously." }],
@@ -107,6 +105,7 @@ export const services: Service[] = [
     category: "Campaigns & Outreach",
     overview:
       "Channel-partner and dealer meet events that reinforce trust and alignment across a brand's distribution network, at single-city or nationwide scale.",
+    tagline: "Multi-city dealer and channel-partner events that reinforce trust at scale.",
     benefits: ["Delegate travel and hospitality coordination", "Consistent multi-city production quality", "Engagement and recognition formats"],
     process: ["Planning", "Venue and travel coordination", "Production", "Execution", "Feedback capture"],
     faqs: [{ q: "Can you manage delegate travel?", a: "Yes, including outstation delegate logistics for nationwide dealer meets." }],
@@ -137,6 +136,7 @@ export const services: Service[] = [
     category: "Corporate & MICE",
     overview:
       "Exhibition stall design, fabrication and on-ground management for trade shows and industry exhibitions across India's major venues.",
+    tagline: "End-to-end stall design, fabrication and on-ground execution across India's major venues.",
     benefits: ["Custom stall design and fabrication", "On-site build and teardown management", "Visitor engagement planning"],
     process: ["Design", "Fabrication", "On-site build", "Live management", "Teardown"],
     faqs: [{ q: "Do you manage exhibitions outside Gujarat?", a: "Yes, we have executed exhibition stalls at major venues across India." }],
@@ -223,6 +223,30 @@ export const services: Service[] = [
   },
 ];
 
+const featuredSlugs = new Set([
+  "corporate-events",
+  "experiential-marketing",
+  "product-launches",
+  "exhibitions",
+  "retail-branding",
+  "dealer-meets",
+]);
+
+export const services: Service[] = rawServices.map((s, i) => ({
+  ...s,
+  id: s.slug,
+  featured: featuredSlugs.has(s.slug),
+  sortOrder: i,
+}));
+
+if (process.env.NODE_ENV !== "production") {
+  services.forEach((s) => serviceSchema.parse(s));
+}
+
 export function getServiceBySlug(slug: string) {
   return services.find((s) => s.slug === slug);
+}
+
+export function getFeaturedServices() {
+  return services.filter((s) => s.featured);
 }

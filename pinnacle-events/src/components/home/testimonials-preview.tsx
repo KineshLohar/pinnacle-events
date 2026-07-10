@@ -15,13 +15,6 @@ export function TestimonialsPreview() {
               Trusted across industries.
             </h2>
           </div>
-          <Link
-            href="/testimonials"
-            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-gold-primary transition-colors shrink-0"
-          >
-            Read all testimonials
-            <ArrowUpRight className="w-4 h-4" />
-          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
