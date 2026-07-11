@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Award } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHero } from "@/components/shared/page-hero";
+import { AwardCard } from "@/components/shared/award-card";
+import { RevealGroup } from "@/components/shared/reveal";
 import { ContactCTA } from "@/components/home/contact-cta";
 import { awards } from "@/content/awards";
-import { AwardCard } from "@/components/shared/award-card";
 
 export const metadata: Metadata = {
   title: "Awards & Recognition",
@@ -23,11 +23,11 @@ export default function AwardsPage() {
 
       <Section>
         <Container>
-          <div className="max-w-3xl">
+          <RevealGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {awards.map((a) => (
               <AwardCard key={a.id} award={a} />
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 

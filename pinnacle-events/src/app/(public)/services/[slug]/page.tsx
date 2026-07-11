@@ -5,6 +5,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section, Eyebrow } from "@/components/layout/section";
 import { PageHero } from "@/components/shared/page-hero";
+import { RevealGroup } from "@/components/shared/reveal";
 import { ContactCTA } from "@/components/home/contact-cta";
 import { services, getServiceBySlug } from "@/content/services";
 
@@ -47,16 +48,14 @@ export default async function ServicePage({ params }: Props) {
               <Eyebrow className="mb-4">Benefits</Eyebrow>
               <h2 className="font-display text-3xl">Why clients choose us for this.</h2>
             </div>
-            <div className="lg:col-span-8">
-              <ul className="space-y-5">
-                {service.benefits.map((b) => (
-                  <li key={b} className="flex items-start gap-3 text-text-secondary">
-                    <Check className="w-5 h-5 text-gold-primary shrink-0 mt-0.5" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <RevealGroup as="ul" className="lg:col-span-8 space-y-5" stagger={0.06}>
+              {service.benefits.map((b) => (
+                <li key={b} className="flex items-start gap-3 text-text-secondary">
+                  <Check className="w-5 h-5 text-gold-primary shrink-0 mt-0.5" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </RevealGroup>
           </div>
         </Container>
       </Section>
@@ -67,7 +66,7 @@ export default async function ServicePage({ params }: Props) {
           <h2 className="font-display text-4xl md:text-5xl max-w-xl mb-14">
             How we take this from brief to delivery.
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+          <RevealGroup className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
             {service.process.map((step, i) => (
               <div key={step} className="border-t border-border-hairline pt-5">
                 <p className="font-mono-tag text-[12px] text-gold-primary mb-3">
@@ -76,7 +75,7 @@ export default async function ServicePage({ params }: Props) {
                 <p className="text-sm text-text-secondary leading-relaxed">{step}</p>
               </div>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 
@@ -86,14 +85,14 @@ export default async function ServicePage({ params }: Props) {
           <h2 className="font-display text-4xl md:text-5xl max-w-xl mb-14">
             {service.name} in execution.
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+          <RevealGroup className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 className="corner-brackets aspect-[4/5] rounded-lg bg-bg-surface border border-border-hairline"
               />
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 
@@ -103,14 +102,14 @@ export default async function ServicePage({ params }: Props) {
           <h2 className="font-display text-4xl md:text-5xl max-w-xl mb-14">
             Common questions.
           </h2>
-          <div className="max-w-3xl divide-y divide-border-hairline border-t border-border-hairline">
+          <RevealGroup className="max-w-3xl divide-y divide-border-hairline border-t border-border-hairline">
             {service.faqs.map((faq) => (
               <div key={faq.q} className="py-6">
                 <p className="font-display text-lg mb-2">{faq.q}</p>
                 <p className="text-text-secondary text-sm leading-relaxed">{faq.a}</p>
               </div>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 

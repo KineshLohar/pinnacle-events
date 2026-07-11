@@ -65,6 +65,9 @@ export default function RootLayout({
       className={`${fraunces.variable} ${manrope.variable} ${plexMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-bg-primary text-text-primary antialiased">
+        <noscript>
+          <style>{`.js-reveal, .js-reveal-group > * { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
         {children}
       </body>
     </html>

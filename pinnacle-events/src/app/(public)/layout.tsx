@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pinnacleevents.co.in"),
@@ -40,10 +41,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main id="main-content" className="flex-1">
+    <>
       <Header />
-      {children}
-      <Footer />
-    </main>
+      <main id="main-content" className="flex-1">
+        {children}
+      </main>
+      <Suspense fallback={<></>}>
+        <Footer />
+      </Suspense>
+    </>
   );
 }

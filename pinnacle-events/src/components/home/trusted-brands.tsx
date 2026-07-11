@@ -1,8 +1,13 @@
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/layout/section";
 import { clients } from "@/content/home-data";
+import { cacheLife, cacheTag } from "next/cache";
 
-export function TrustedBrands() {
+export async function TrustedBrands() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("trusted-brands");
+  
   const track = [...clients, ...clients];
 
   return (

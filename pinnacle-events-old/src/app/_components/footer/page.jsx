@@ -122,9 +122,9 @@ const Footer = () => {
 
       <div className="bg-black/5 p-6 italic text-center md:flex md:items-center md:justify-center">
         <span>© 2023 Copyright:</span>
-        <a className="font-semibold" href="https://tw-elements.com/">
+        <Link className="font-semibold" href="https://tw-elements.com/">
           Pinnacle Events
-        </a>
+        </Link>
         <span className="ml-2 flex items-center justify-center ">
           Developed using{" "}
           <Image

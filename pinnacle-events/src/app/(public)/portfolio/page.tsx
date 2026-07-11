@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/page-hero";
 import { PortfolioCard } from "@/components/shared/portfolio-card";
 import { ContactCTA } from "@/components/home/contact-cta";
 import { caseStudies } from "@/content/portfolio";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -12,7 +13,11 @@ export const metadata: Metadata = {
     "Case studies from Pinnacle Events' work with Garnier, TVS Eurogrip, IIFL, Aakash Institute and other leading Indian brands.",
 };
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("portfolio-page");
+
   return (
     <>
       <PageHero

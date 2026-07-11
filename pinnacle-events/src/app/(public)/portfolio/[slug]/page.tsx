@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/container";
 import { Section, Eyebrow } from "@/components/layout/section";
+import { Reveal, RevealGroup } from "@/components/shared/reveal";
 import { ContactCTA } from "@/components/home/contact-cta";
 import { caseStudies, getCaseStudyBySlug } from "@/content/portfolio";
 
@@ -55,34 +56,36 @@ export default async function CaseStudyPage({ params }: Props) {
 
       <section className="py-16">
         <Container>
-          <div className="corner-brackets brackets-visible aspect-[16/8] rounded-lg bg-bg-surface border border-border-hairline" />
+          <Reveal>
+            <div className="corner-brackets brackets-visible aspect-[16/8] rounded-lg bg-bg-surface border border-border-hairline" />
+          </Reveal>
         </Container>
       </section>
 
       <Section>
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 max-w-4xl">
+          <RevealGroup className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 max-w-4xl">
             {details.map((d) => (
               <div key={d.label}>
                 <Eyebrow className="mb-3">{d.label}</Eyebrow>
                 <p className="text-text-secondary leading-relaxed">{d.value}</p>
               </div>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 
       <Section>
         <Container>
           <Eyebrow className="mb-4">Gallery</Eyebrow>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+          <RevealGroup className="grid grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
                 className="corner-brackets aspect-[4/5] rounded-lg bg-bg-surface border border-border-hairline"
               />
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 

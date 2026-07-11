@@ -120,6 +120,18 @@ body {
   transform: translate(0, 0);
 }
 
+.js-reveal-group > * {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal,
+  .js-reveal-group > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -1,5 +1,7 @@
 import { Container } from "@/components/layout/container";
 import { Section, Eyebrow } from "@/components/layout/section";
+import { RevealGroup } from "@/components/shared/reveal";
+import { cacheLife, cacheTag } from "next/cache";
 
 const strengths = [
   {
@@ -24,7 +26,11 @@ const strengths = [
   },
 ];
 
-export function WhyPinnacle() {
+export async function WhyPinnacle() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("why-pinnacle");
+
   return (
     <Section id="why-pinnacle" className="bg-bg-surface">
       <Container>
@@ -36,7 +42,7 @@ export function WhyPinnacle() {
             </h2>
           </div>
 
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
+          <RevealGroup className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
             {strengths.map((s) => (
               <div key={s.title} className="border-t border-border-hairline pt-6">
                 <h3 className="font-display text-xl mb-3">{s.title}</h3>
@@ -45,7 +51,7 @@ export function WhyPinnacle() {
                 </p>
               </div>
             ))}
-          </div>
+          </RevealGroup>
         </div>
       </Container>
     </Section>

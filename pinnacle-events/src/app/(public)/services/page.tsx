@@ -3,9 +3,11 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHero } from "@/components/shared/page-hero";
 import { ServiceCard } from "@/components/shared/service-card";
+import { RevealGroup } from "@/components/shared/reveal";
 import { ContactCTA } from "@/components/home/contact-cta";
 import { serviceGroups } from "@/content/navigation";
 import { services } from "@/content/services";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -13,7 +15,11 @@ export const metadata: Metadata = {
     "Corporate events, brand activations, product launches, experiential marketing, retail branding, exhibitions and 18 disciplines of end-to-end event execution.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("services-page");
+
   return (
     <>
       <PageHero
@@ -25,10 +31,10 @@ export default function ServicesPage() {
       {serviceGroups.map((group) => (
         <Section key={group.title}>
           <Container>
-            <h2 className="font-mono-tag text-[13px] text-gold-primary mb-10">
+            <h2 className="font-mono-tag text-[14px] text-gold-primary mb-10 font-medium">
               {group.title}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <RevealGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {group.services.map((s) => {
                 const full = services.find((svc) => svc.slug === s.slug);
                 const description = full ? `${full.overview.slice(0, 110)}...` : "";
@@ -36,7 +42,7 @@ export default function ServicesPage() {
                   <ServiceCard key={s.slug} name={s.name} slug={s.slug} description={description} />
                 );
               })}
-            </div>
+            </RevealGroup>
           </Container>
         </Section>
       ))}

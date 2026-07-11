@@ -1,14 +1,20 @@
-import Link from "next/link";
-import { Container } from "./container";
 import { serviceGroups } from "@/content/navigation";
-import { Mail, Phone, MapPin } from "lucide-react";
-import { FaInstagram, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { cacheLife, cacheTag } from "next/cache";
+import Link from "next/link";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { Container } from "./container";
+import FooterDate from "./footer-date";
 
-export function Footer() {
+export async function Footer() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("footer");
+
   return (
     <footer className="border-t border-border-hairline bg-bg-primary">
       <Container>
-        <div className="py-20 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="py-16 grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-4">
             <p className="font-display text-2xl mb-4">
               PINNACLE <span className="text-gold-primary">EVENTS</span>
@@ -18,19 +24,19 @@ export function Footer() {
               precision -- from Ahmedabad, for brands across India.
             </p>
             <div className="flex gap-4 mt-6">
-              <a aria-label="Instagram" href="#" className="text-text-tertiary hover:text-gold-primary transition-colors">
+              <Link aria-label="Instagram" href="#" target="_blank" className="text-text-tertiary hover:text-gold-primary transition-colors">
                 <FaInstagram className="w-5 h-5" />
-              </a>
-              <a aria-label="LinkedIn" href="#" className="text-text-tertiary hover:text-gold-primary transition-colors">
+              </Link>
+              <Link aria-label="LinkedIn" href="#" target="_blank" className="text-text-tertiary hover:text-gold-primary transition-colors">
                 <FaLinkedin className="w-5 h-5" />
-              </a>
-              <a aria-label="Facebook" href="#" className="text-text-tertiary hover:text-gold-primary transition-colors">
+              </Link>
+              <Link aria-label="Facebook" href="#" target="_blank" className="text-text-tertiary hover:text-gold-primary transition-colors">
                 <FaFacebook className="w-5 h-5" />
-              </a>
+              </Link>
             </div>
           </div>
 
-          <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-4 gap-4">
             {serviceGroups.map((group) => (
               <div key={group.title}>
                 <p className="font-mono-tag text-[11px] text-text-tertiary mb-3">
@@ -61,22 +67,22 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-gold-primary shrink-0" />
-                <a href="tel:+910000000000" className="hover:text-gold-bright transition-colors">
+                <Link href="tel:+910000000000" className="hover:text-gold-bright transition-colors">
                   +91 00000 00000
-                </a>
+                </Link>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-gold-primary shrink-0" />
-                <a href="mailto:hello@pinnacleevents.co.in" className="hover:text-gold-bright transition-colors">
+                <Link href="mailto:hello@pinnacleevents.co.in" className="hover:text-gold-bright transition-colors">
                   hello@pinnacleevents.co.in
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="py-6 border-t border-border-hairline flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-text-tertiary">
-          <p>© {new Date().getFullYear()} Pinnacle Events. All rights reserved.</p>
+          <FooterDate />
           <div className="flex gap-6">
             <Link href="/about" className="hover:text-gold-primary transition-colors">About</Link>
             <Link href="/portfolio" className="hover:text-gold-primary transition-colors">Work</Link>

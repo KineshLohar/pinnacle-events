@@ -1,8 +1,14 @@
 import { Container } from "@/components/layout/container";
 import { Section, Eyebrow } from "@/components/layout/section";
+import { RevealGroup } from "@/components/shared/reveal";
 import { industries } from "@/content/home-data";
+import { cacheLife, cacheTag } from "next/cache";
 
-export function IndustriesServed() {
+export async function IndustriesServed() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("industries-served");
+
   return (
     <Section id="industries">
       <Container>
@@ -11,7 +17,7 @@ export function IndustriesServed() {
           Built for corporates that operate at scale.
         </h2>
 
-        <div className="flex flex-wrap gap-3">
+        <RevealGroup className="flex flex-wrap gap-3" stagger={0.04}>
           {industries.map((industry) => (
             <span
               key={industry}
@@ -20,7 +26,7 @@ export function IndustriesServed() {
               {industry}
             </span>
           ))}
-        </div>
+        </RevealGroup>
       </Container>
     </Section>
   );

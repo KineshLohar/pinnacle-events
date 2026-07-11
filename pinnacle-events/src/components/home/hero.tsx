@@ -118,7 +118,7 @@ export function Hero() {
           </div>
 
           <div className="lg:col-span-4 flex lg:justify-end">
-            <div className="border border-border-hairline rounded-lg px-6 py-6 w-full max-w-[260px]">
+            <div className="border border-border-hairline rounded-lg px-6 py-6 w-full max-w-[260px] bg-bg-primary/50 backdrop-blur-sm">
               <p className="font-display text-4xl text-gold-primary">400+</p>
               <p className="text-sm text-text-secondary mt-1">
                 Corporate events executed across 30+ cities in India

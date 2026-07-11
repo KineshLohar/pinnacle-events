@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
     ]
-  }
+  },
+  cacheComponents: true
 };
 
 export default nextConfig;

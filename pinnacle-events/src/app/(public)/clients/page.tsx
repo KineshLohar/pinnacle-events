@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHero } from "@/components/shared/page-hero";
+import { RevealGroup } from "@/components/shared/reveal";
 import { ContactCTA } from "@/components/home/contact-cta";
-import { clients } from "@/content/home-data";
+import { clients } from "@/content/clients";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Clients",
@@ -11,7 +13,11 @@ export const metadata: Metadata = {
     "Pinnacle Events has delivered corporate events and experiential campaigns for Garnier, TVS Eurogrip, IIFL, IFFCO, Tata Capital, SBI Securities and more.",
 };
 
-export default function ClientsPage() {
+export default async function ClientsPage() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("clients-page");
+
   return (
     <>
       <PageHero
@@ -22,19 +28,18 @@ export default function ClientsPage() {
 
       <Section>
         <Container>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {clients.map((name) => (
+          <RevealGroup className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {clients.map((c) => (
               <div
-                key={name}
+                key={c.id}
                 className="border border-border-hairline rounded-lg h-32 flex items-center justify-center px-4 hover:border-gold-primary transition-colors"
               >
-                <p className="font-display text-xl text-center text-text-primary">{name}</p>
+                <p className="font-display text-xl text-center text-text-primary">{c.name}</p>
               </div>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
-
       <ContactCTA />
     </>
   );

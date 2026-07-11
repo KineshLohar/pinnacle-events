@@ -82,3 +82,28 @@ export function getCaseStudyBySlug(slug: string) {
 export function getFeaturedCaseStudies() {
   return caseStudies.filter((c) => c.featured);
 }
+
+/**
+ * Default page size for the portfolio infinite-scroll feed. Kept here so the
+ * client feed and the server action both reference one source of truth.
+ */
+export const PORTFOLIO_PAGE_SIZE = 8;
+
+/**
+ * Slices a page of case studies by numeric cursor (== offset). This is the
+ * exact shape a future Drizzle query will return --
+ * `db.select().from(caseStudies).orderBy(sortOrder).limit(limit).offset(cursor)`
+ * plus a total count for `hasMore` -- so swapping the data source later means
+ * changing the inside of this one function, not any caller.
+ */
+export function getCaseStudiesPage(cursor = 0, limit: number = PORTFOLIO_PAGE_SIZE) {
+  const items = caseStudies.slice(cursor, cursor + limit);
+  const nextCursor = cursor + items.length;
+  const hasMore = nextCursor < caseStudies.length;
+
+  return {
+    items,
+    nextCursor: hasMore ? nextCursor : null,
+    hasMore,
+  };
+}

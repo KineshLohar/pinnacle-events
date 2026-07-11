@@ -3,6 +3,8 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { ContactForm } from "@/components/shared/contact-form";
+import Link from "next/link";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -10,7 +12,17 @@ export const metadata: Metadata = {
     "Get in touch with Pinnacle Events for corporate event management and experiential marketing mandates across India.",
 };
 
-export default function ContactPage() {
+// Placeholder address -- swap this query (or the whole embed URL, e.g. from
+// Google Maps > Share > Embed a map) once the real office address is final.
+// const MAP_QUERY = "SG Highway, Ahmedabad, Gujarat, India";
+// const MAP_EMBED_SRC = `https://www.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&output=embed`;
+const MAP_EMBED_SRC = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.983584379246!2d72.6541587!3d23.0610634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e872dabca45bb%3A0x53c7db6853504331!2sPinnacle%20Events!5e0!3m2!1sen!2sin!4v1783758804611!5m2!1sen!2sin`;
+
+export default async function ContactPage() {
+  "use cache"
+  cacheLife("max");
+  cacheTag("contact-page");
+
   return (
     <>
       <PageHero
@@ -39,21 +51,21 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5 text-gold-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-text-tertiary">Phone</p>
-                    <a href="tel:+910000000000" className="text-text-primary hover:text-gold-bright transition-colors">
+                    <Link href="tel:+910000000000" className="text-text-primary hover:text-gold-bright transition-colors">
                       +91 00000 00000
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Mail className="w-5 h-5 text-gold-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-text-tertiary">Email</p>
-                    <a
+                    <Link
                       href="mailto:hello@pinnacleevents.co.in"
                       className="text-text-primary hover:text-gold-bright transition-colors"
                     >
                       hello@pinnacleevents.co.in
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -65,8 +77,16 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="mt-6 aspect-[4/3] rounded-lg border border-border-hairline bg-bg-surface flex items-center justify-center">
-                <p className="text-sm text-text-tertiary font-mono-tag">Map Embed</p>
+              <div className="mt-6 aspect-[4/3] rounded-lg border border-border-hairline overflow-hidden">
+                <iframe
+                  src={MAP_EMBED_SRC}
+                  title="Pinnacle Events office location"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, filter: "grayscale(0.4) invert(0.9) contrast(0.9)" }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
               </div>
             </div>
           </div>

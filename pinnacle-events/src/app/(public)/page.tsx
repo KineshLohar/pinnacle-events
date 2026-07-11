@@ -10,7 +10,7 @@ import { TestimonialsPreview } from "@/components/home/testimonials-preview";
 import { IndustriesServed } from "@/components/home/industries-served";
 import { ContactCTA } from "@/components/home/contact-cta";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Hero />
