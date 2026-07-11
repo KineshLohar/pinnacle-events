@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/page-hero";
 import { ContactForm } from "@/components/shared/contact-form";
 import Link from "next/link";
 import { cacheLife, cacheTag } from "next/cache";
+import { EMAIL, PHONE } from "@/lib/CONSTANTS";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -51,8 +52,8 @@ export default async function ContactPage() {
                   <Phone className="w-5 h-5 text-gold-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-text-tertiary">Phone</p>
-                    <Link href="tel:+910000000000" className="text-text-primary hover:text-gold-bright transition-colors">
-                      +91 00000 00000
+                    <Link href={`tel:${PHONE}`} className="text-text-primary hover:text-gold-bright transition-colors">
+                      {PHONE}
                     </Link>
                   </div>
                 </div>
@@ -61,10 +62,10 @@ export default async function ContactPage() {
                   <div>
                     <p className="text-sm text-text-tertiary">Email</p>
                     <Link
-                      href="mailto:hello@pinnacleevents.co.in"
+                      href={`mailto:${EMAIL}`}
                       className="text-text-primary hover:text-gold-bright transition-colors"
                     >
-                      hello@pinnacleevents.co.in
+                      {EMAIL}
                     </Link>
                   </div>
                 </div>

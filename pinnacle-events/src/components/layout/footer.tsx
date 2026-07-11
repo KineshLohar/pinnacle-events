@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { Container } from "./container";
 import FooterDate from "./footer-date";
+import { EMAIL, PHONE } from "@/lib/CONSTANTS";
 
 export async function Footer() {
   "use cache"
@@ -67,14 +68,14 @@ export async function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-gold-primary shrink-0" />
-                <Link href="tel:+910000000000" className="hover:text-gold-bright transition-colors">
-                  +91 00000 00000
+                <Link href={`tel:${PHONE}`} className="hover:text-gold-bright transition-colors">
+                  {PHONE}
                 </Link>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-gold-primary shrink-0" />
-                <Link href="mailto:hello@pinnacleevents.co.in" className="hover:text-gold-bright transition-colors">
-                  hello@pinnacleevents.co.in
+                <Link href={`mailto:${EMAIL}`} className="hover:text-gold-bright transition-colors">
+                  {EMAIL}
                 </Link>
               </li>
             </ul>

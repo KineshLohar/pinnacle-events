@@ -4,8 +4,9 @@ import { Section } from "@/components/layout/section";
 import { PageHero } from "@/components/shared/page-hero";
 import { PortfolioCard } from "@/components/shared/portfolio-card";
 import { ContactCTA } from "@/components/home/contact-cta";
-import { caseStudies } from "@/content/portfolio";
+import { caseStudies, getCaseStudiesPage, PORTFOLIO_PAGE_SIZE } from "@/content/portfolio";
 import { cacheLife, cacheTag } from "next/cache";
+import { PortfolioFeed } from "@/components/portfolio/portfolio-feed";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -18,6 +19,8 @@ export default async function PortfolioPage() {
   cacheLife("max");
   cacheTag("portfolio-page");
 
+  const firstPage = getCaseStudiesPage(0, PORTFOLIO_PAGE_SIZE);
+
   return (
     <>
       <PageHero
@@ -28,18 +31,11 @@ export default async function PortfolioPage() {
 
       <Section>
         <Container>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudies.map((c) => (
-              <PortfolioCard
-                key={c.slug}
-                title={c.title}
-                slug={c.slug}
-                client={c.client}
-                location={c.location}
-                category={c.category}
-              />
-            ))}
-          </div>
+          <PortfolioFeed
+            initialItems={firstPage.items}
+            initialNextCursor={firstPage.nextCursor}
+            initialHasMore={firstPage.hasMore}
+          />
         </Container>
       </Section>
 
