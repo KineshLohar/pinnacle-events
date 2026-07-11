@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, Manrope } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Manrope, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -62,7 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${manrope.variable} ${plexMono.variable} h-full`}
+      className={cn("h-full", fraunces.variable, manrope.variable, plexMono.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col bg-bg-primary text-text-primary antialiased">
         <noscript>
