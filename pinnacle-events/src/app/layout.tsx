@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Mono, Manrope, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -65,13 +67,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", fraunces.variable, manrope.variable, plexMono.variable, "font-sans", geist.variable)}
+      className={cn("h-full dark", fraunces.variable, manrope.variable, plexMono.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col bg-bg-primary text-text-primary antialiased">
         <noscript>
           <style>{`.js-reveal, .js-reveal-group > * { opacity: 1 !important; transform: none !important; }`}</style>
         </noscript>
         {children}
+        <Toaster theme="dark" />
       </body>
     </html>
   );

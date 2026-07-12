@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, LockKeyhole, Mail } from "lucide-react";
+import { Eye, EyeOff, Loader2, LockKeyhole, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -10,29 +10,26 @@ import { loginSchema, type LoginSchema } from "@/lib/validations/login";
 
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-} from "@/components/ui/input-group";
 import { authClient } from "@/lib/auth/client";
+import { useState } from "react";
 
 export function LoginForm() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -86,9 +83,9 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md border-border-hairline bg-bg-surface/80 backdrop-blur">
-      <CardHeader className="space-y-2">
-        <CardTitle className="font-display text-3xl">
+    <Card className="w-full max-w-xl p-4 sm:p-8 border-border-hairline bg-bg-surface/80 backdrop-blur corner-brackets brackets-visible">
+      <CardHeader className="space-y-2 mt-4">
+        <CardTitle className="font-display text-xl sm:text-3xl">
           Welcome Back
         </CardTitle>
 
@@ -97,7 +94,7 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="">
         <form
           id="login-form"
           onSubmit={handleSubmit(onSubmit)}
@@ -110,23 +107,17 @@ export function LoginForm() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Email</FieldLabel>
-
-                  <InputGroup>
-                    <InputGroupAddon>
-                      <InputGroupText>
-                        <Mail className="size-4" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       {...field}
                       type="email"
+                      placeholder="admin@company.com"
                       autoComplete="email"
-                      placeholder="admin@pinnacleevents.com"
+                      className="h-11 pl-10"
                       disabled={isSubmitting}
-                      aria-invalid={fieldState.invalid}
                     />
-                  </InputGroup>
+                  </div>
 
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -142,22 +133,29 @@ export function LoginForm() {
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Password</FieldLabel>
 
-                  <InputGroup>
-                    <InputGroupAddon>
-                      <InputGroupText>
-                        <LockKeyhole className="size-4" />
-                      </InputGroupText>
-                    </InputGroupAddon>
+                  <div className="relative">
+                    <LockKeyhole className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
 
                     <Input
                       {...field}
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       autoComplete="current-password"
-                      placeholder="••••••••"
-                      disabled={isSubmitting}
-                      aria-invalid={fieldState.invalid}
+                      className="h-11 pl-10 pr-10"
+                      placeholder="********"
                     />
-                  </InputGroup>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="size-4" />
+                      ) : (
+                        <Eye className="size-4" />
+                      )}
+                    </button>
+                  </div>
 
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -175,12 +173,13 @@ export function LoginForm() {
         </form>
       </CardContent>
 
-      <CardFooter className="flex gap-3">
+      <CardFooter className="flex gap-3 mb-4 mt-2">
         <Button
           type="button"
           variant="outline"
           onClick={() => reset()}
           disabled={isSubmitting}
+          className="py-5 px-6"
         >
           Reset
         </Button>
@@ -188,7 +187,7 @@ export function LoginForm() {
         <Button
           type="submit"
           form="login-form"
-          className="flex-1"
+          className="flex-1 py-5"
           disabled={isSubmitting}
         >
           {isSubmitting ? (
