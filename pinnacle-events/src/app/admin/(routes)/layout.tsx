@@ -12,18 +12,6 @@ interface AdminLayoutProps {
 export default async function AdminLayout({
     children,
 }: Readonly<AdminLayoutProps>) {
-    const session = await getSession();
-
-    if (!session) {
-        redirect("/admin/login");
-    }
-
-    //   const currentUser = {
-    //     id: session.user.id,
-    //     name: session.user.name,
-    //     email: session.user.email,
-    //     image: session.user.image,
-    //   };
 
     return (
         <SidebarProvider>
