@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  images :{
-    remotePatterns : [
+  images: {
+    remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -11,7 +11,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.pinnacleevents.in",
-    },
+      },
+      {
+        protocol: "https",
+        hostname: "*.cloudinary.com",
+      },
     ]
   },
   cacheComponents: true

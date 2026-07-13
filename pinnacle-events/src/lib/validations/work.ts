@@ -8,7 +8,12 @@ export const WORK_CATEGORIES = [
   "Roadshow",
   "Brand Activation",
   "Award Ceremony",
+  "Roadshow",
+  "Employee Engagement",
+  "Other"
 ] as const;
+
+export const workCategorySchema = z.enum(WORK_CATEGORIES);
 
 export const galleryImageSchema = z.object({
   image: z
@@ -22,91 +27,114 @@ export const galleryImageSchema = z.object({
     .optional(),
 });
 
-export const workSchema = z.object({
+export const workBaseSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(3, "Title must be at least 3 characters.")
+    .min(3)
     .max(150),
 
   slug: z
     .string()
     .trim()
-    .min(3, "Slug is required.")
+    .min(3)
     .max(150)
     .regex(
       /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-      "Only lowercase letters, numbers and hyphens are allowed.",
+      "Invalid slug.",
     ),
 
   client: z
     .string()
     .trim()
-    .min(2, "Client is required.")
+    .min(2)
     .max(120),
-
-  // category: z
-  //   .string()
-  //   .trim()
-  //   .min(2, "Category is required.")
-  //   .max(120),
-  category: z.enum(WORK_CATEGORIES),
+  excerpt: z
+    .string()
+    .trim()
+    .min(10)
+    .max(300),
+  eventType: workCategorySchema,
 
   location: z
     .string()
     .trim()
-    .min(2, "Location is required.")
+    .min(2)
     .max(120),
 
-  projectDate: z
-    .string()
-    .min(1, "Project date is required."),
+  projectDate: z.string().min(1),
 
   featured: z.boolean(),
 
   isPublished: z.boolean(),
 
-  coverImage: z
-    .string()
-    .min(1, "Cover image is required."),
-
-  gallery: z
-    .array(galleryImageSchema)
-    .min(1, "Upload at least one gallery image."),
-
   objective: z
     .string()
     .trim()
     .optional(),
-    // .min(10, "Objective is required."),
 
   challenge: z
     .string()
     .trim()
     .optional(),
-    // .min(10, "Challenge is required."),
 
   execution: z
     .string()
     .trim()
     .optional(),
-    // .min(10, "Execution is required."),
 
   outcome: z
     .string()
     .trim()
     .optional(),
-    // .min(10, "Outcome is required."),
 });
 
-export type WorkFormValues = z.infer<typeof workSchema>;
+export const workClientSchema =
+  workBaseSchema.extend({
+    coverImage: z
+      .instanceof(File, {
+        message: "Cover image is required.",
+      }).nullable(),
+
+    gallery: z
+      .array(
+        z.object({
+          image: z.instanceof(File),
+          alt: z
+            .string()
+            .trim()
+            .max(120)
+            .optional(),
+        }),
+      )
+      .min(1),
+  });
+
+export type WorkFormValues =
+  z.infer<typeof workClientSchema>;
+
+export const cloudinaryImageSchema = z.object({
+  url: z.string().url(),
+  publicId: z.string(),
+});
+
+export const workServerSchema =
+  workBaseSchema.extend({
+    coverImage: cloudinaryImageSchema,
+
+    gallery: z.array(
+      cloudinaryImageSchema.extend({
+        alt: z.string().optional(),
+      }),
+    ),
+  });
 
 export const defaultWorkValues: WorkFormValues = {
   title: "",
   slug: "",
-
+  excerpt: "",
   client: "",
-  category: WORK_CATEGORIES[0],
+  eventType: WORK_CATEGORIES[0],
   location: "",
 
   projectDate: "",
@@ -114,7 +142,7 @@ export const defaultWorkValues: WorkFormValues = {
   featured: false,
   isPublished: true,
 
-  coverImage: "",
+  coverImage: null,
 
   gallery: [],
 

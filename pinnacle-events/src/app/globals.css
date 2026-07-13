@@ -122,10 +122,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   background: var(--bg-primary);
   color: var(--text-primary);

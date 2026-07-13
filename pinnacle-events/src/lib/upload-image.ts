@@ -1,18 +1,22 @@
 import imageCompression, { type Options } from "browser-image-compression";
 
-import type {
-  GenerateUploadUrlRequest,
-  GenerateUploadUrlResponse,
-} from "./upload-types";
-
 interface UploadImageOptions {
   file: File;
-  objectKey: string;
 }
 
-interface UploadedImage {
+export interface UploadedImage {
   url: string;
-  key: string;
+  publicId: string;
+  width: number;
+  height: number;
+}
+
+interface SignatureResponse {
+  timestamp: number;
+  signature: string;
+  apiKey: string;
+  cloudName: string;
+  folder: string;
 }
 
 const compressionOptions: Options = {
@@ -24,46 +28,66 @@ const compressionOptions: Options = {
 
 export async function uploadImage({
   file,
-  objectKey,
 }: UploadImageOptions): Promise<UploadedImage> {
-  const compressed = await imageCompression(file, compressionOptions);
+  // Compress image
+  const compressed = await imageCompression(
+    file,
+    compressionOptions,
+  );
 
-  const response = await fetch("/api/upload", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  // Get signed upload params
+  const signatureResponse = await fetch(
+    "/api/cloudinary/sign",
+  );
+
+  if (!signatureResponse.ok) {
+    throw new Error(
+      "Unable to generate upload signature.",
+    );
+  }
+
+  const {
+    timestamp,
+    signature,
+    apiKey,
+    cloudName,
+    folder,
+  } = (await signatureResponse.json()) as SignatureResponse;
+
+  // Build upload payload
+  const formData = new FormData();
+
+  formData.append("file", compressed);
+
+  formData.append("api_key", apiKey);
+
+  formData.append("timestamp", String(timestamp));
+
+  formData.append("signature", signature);
+
+  formData.append("folder", folder);
+
+  // Upload directly to Cloudinary
+  const uploadResponse = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
     },
-    body: JSON.stringify({
-      objectKey,
-      contentType: compressed.type,
-    } satisfies GenerateUploadUrlRequest),
-  });
+  );
 
-  if (!response.ok) {
-    throw new Error("Unable to generate upload URL.");
+  if (!uploadResponse.ok) {
+    throw new Error(
+      "Unable to upload image.",
+    );
   }
 
-  const data =
-    (await response.json()) as GenerateUploadUrlResponse;
-
-  if (!data.success) {
-    throw new Error("Unable to generate upload URL.");
-  }
-
-  const upload = await fetch(data.uploadUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": compressed.type,
-    },
-    body: compressed,
-  });
-
-  if (!upload.ok) {
-    throw new Error("Image upload failed.");
-  }
+  const uploaded = await uploadResponse.json();
 
   return {
-    url: data.publicUrl,
-    key: data.key,
+    url: uploaded.secure_url,
+    publicId: uploaded.public_id,
+    width: uploaded.width,
+    height: uploaded.height,
   };
 }

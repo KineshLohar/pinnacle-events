@@ -1,14 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
 
-import { defaultWorkValues, WORK_CATEGORIES, workSchema, type WorkFormValues } from "@/lib/validations/work";
+import { defaultWorkValues, WORK_CATEGORIES, workClientSchema, type WorkFormValues } from "@/lib/validations/work";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,41 +20,66 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 
-import { createWorkAction } from "@/actions/work";
+import { createWorkAction, updateWorkAction } from "@/actions/work";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { GalleryUploader } from "../gallery-uploader";
 import { ImageUploader } from "../image-uploader";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { workGallery, works } from "@/lib/db/schema";
+import { ExistingCoverImage, ExistingGalleryImage } from "@/lib/types";
+
+type WorkWithGallery =
+    typeof works.$inferSelect & {
+        gallery: typeof workGallery.$inferSelect[];
+    };
+
 
 interface Props {
     mode: "create" | "edit";
     initialData?: Partial<WorkFormValues>;
+    work?: WorkWithGallery;
 }
 
 export function WorkForm({
     mode,
     initialData,
+    work
 }: Props) {
     const router = useRouter();
-    const uploadSession = useRef(
-        crypto.randomUUID(),
-    ).current;
 
     const [isPending, startTransition] = useTransition();
+
+    const [existingCover, setExistingCover] =
+        useState<ExistingCoverImage | null>(
+            work
+                ? {
+                    url: work.coverImageUrl,
+                    publicId: work.coverImagePublicId,
+                }
+                : null,
+        );
+
+    const [existingGallery, setExistingGallery] =
+        useState<ExistingGalleryImage[]>(
+            work?.gallery ?? [],
+        );
+
+    const [removedGallery, setRemovedGallery] =
+        useState<ExistingGalleryImage[]>([]);
 
     const [slugEdited, setSlugEdited] = useState(
         mode === "edit",
     );
 
     const form = useForm<WorkFormValues>({
-        resolver: zodResolver(workSchema),
+        resolver: zodResolver(workClientSchema),
         defaultValues: useMemo(
             () => ({
                 ...defaultWorkValues,
@@ -82,9 +107,136 @@ export function WorkForm({
         );
     }, [title, slugEdited, form]);
 
+    useEffect(() => {
+        if (!work) return;
+
+        form.reset({
+            title: work.title,
+            slug: work.slug,
+            excerpt: work.excerpt,
+
+            client: work.client,
+            eventType: work.eventType,
+            location: work.location,
+
+            projectDate: work.projectDate,
+
+            featured: work.featured,
+            isPublished: work.isPublished,
+
+            objective: work.objective || "",
+            challenge: work.challenge || "",
+            execution: work.execution || "",
+            outcome: work.outcome || "",
+
+            coverImage: null,
+
+            gallery: [],
+        });
+    }, [work, form]);
+
     function onSubmit(values: WorkFormValues) {
         startTransition(async () => {
-            const result = await createWorkAction(values);
+            const formData = new FormData();
+
+            formData.append("mode", mode);
+
+            if (work) {
+                formData.append("id", work.id);
+            }
+
+            formData.append("title", values.title);
+            formData.append("slug", values.slug);
+            formData.append("excerpt", values.excerpt);
+            formData.append("client", values.client);
+            formData.append("eventType", values.eventType);
+            formData.append("location", values.location);
+            formData.append("projectDate", values.projectDate);
+
+            formData.append(
+                "featured",
+                String(values.featured),
+            );
+
+            formData.append(
+                "isPublished",
+                String(values.isPublished),
+            );
+
+            formData.append(
+                "objective",
+                values.objective ?? "",
+            );
+
+            formData.append(
+                "challenge",
+                values.challenge ?? "",
+            );
+
+            formData.append(
+                "execution",
+                values.execution ?? "",
+            );
+
+            formData.append(
+                "outcome",
+                values.outcome ?? "",
+            );
+
+            if (
+                mode === "create" &&
+                !values.coverImage
+            ) {
+                toast.error(
+                    "Cover image is required.",
+                );
+
+                return;
+            }
+
+            if (values.coverImage) {
+                formData.append(
+                    "coverImage",
+                    values.coverImage,
+                );
+            }
+
+            formData.append(
+                "existingCover",
+                JSON.stringify(existingCover),
+              );
+
+            formData.append(
+                "existingGallery",
+                JSON.stringify(
+                    existingGallery,
+                ),
+            );
+
+            formData.append(
+                "removedGallery",
+                JSON.stringify(
+                    removedGallery.map((image) => image.id),
+                ),
+            );
+
+            values.gallery.forEach((image) => {
+                formData.append(
+                    "gallery",
+                    image.image,
+                );
+
+                formData.append(
+                    "galleryAlt",
+                    image.alt ?? "",
+                );
+            });
+
+
+            const result =
+                mode === "create"
+                    ? await createWorkAction(formData)
+                    : await updateWorkAction(formData);
 
             if (!result.success) {
                 toast.error(result.message);
@@ -96,6 +248,56 @@ export function WorkForm({
             router.push("/admin/works");
             router.refresh();
         });
+    }
+
+    function removeExistingGalleryImage(id: string) {
+        const image = existingGallery.find(
+            (item) => item.id === id,
+        );
+
+        if (!image) return;
+
+        setExistingGallery((prev) =>
+            prev.filter((item) => item.id !== id),
+        );
+
+        setRemovedGallery((prev) => [
+            ...prev,
+            image,
+        ]);
+    }
+
+    function restoreGalleryImage(id: string) {
+        const image = removedGallery.find(
+            (item) => item.id === id,
+        );
+
+        if (!image) return;
+
+        setRemovedGallery((prev) =>
+            prev.filter((item) => item.id !== id),
+        );
+
+        setExistingGallery((prev) => [
+            ...prev,
+            image,
+        ]);
+    }
+
+    function updateExistingGalleryAlt(
+        id: string,
+        alt: string,
+    ) {
+        setExistingGallery((prev) =>
+            prev.map((item) =>
+                item.id === id
+                    ? {
+                        ...item,
+                        alt,
+                    }
+                    : item,
+            ),
+        );
     }
 
     return (
@@ -176,7 +378,7 @@ export function WorkForm({
                             />
 
                             <Controller
-                                name="category"
+                                name="eventType"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
@@ -340,6 +542,26 @@ export function WorkForm({
                     <FieldGroup className="my-8">
 
                         <Controller
+                            name="excerpt"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Short Description</FieldLabel>
+
+                                    <Textarea
+                                        {...field}
+                                        rows={4}
+                                        placeholder="What was the client trying to achieve?"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+
+                                    {fieldState.error && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
+                            )}
+                        />
+                        <Controller
                             name="objective"
                             control={form.control}
                             render={({ field, fieldState }) => (
@@ -432,20 +654,25 @@ export function WorkForm({
 
                         <CardContent>
                             <Controller
-                                control={form.control}
                                 name="coverImage"
+                                control={form.control}
                                 render={({ field, fieldState }) => (
-                                    <>
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Cover Image</FieldLabel>
+
                                         <ImageUploader
                                             value={field.value}
                                             onChange={field.onChange}
-                                            objectKey={`temp/works/${uploadSession}/cover.jpg`}
-                                            label="Upload Cover"
+                                            existingImage={existingCover}
+                                            onRemoveExisting={() =>
+                                                setExistingCover(null)
+                                            }
                                         />
+
                                         {fieldState.error && (
                                             <FieldError errors={[fieldState.error]} />
                                         )}
-                                    </>
+                                    </Field>
                                 )}
                             />
 
@@ -459,19 +686,26 @@ export function WorkForm({
 
                         <CardContent>
                             <Controller
-                                control={form.control}
                                 name="gallery"
+                                control={form.control}
                                 render={({ field, fieldState }) => (
-                                    <>
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Gallery</FieldLabel>
+
                                         <GalleryUploader
-                                            uploadSession={uploadSession}
-                                            value={field.value}
-                                            onChange={field.onChange}
+                                            existingImages={existingGallery}
+                                            removedImages={removedGallery}
+                                            newImages={field.value}
+                                            onNewImagesChange={field.onChange}
+                                            onRemoveExisting={removeExistingGalleryImage}
+                                            onRestoreExisting={restoreGalleryImage}
+                                            onExistingAltChange={updateExistingGalleryAlt}
                                         />
+
                                         {fieldState.error && (
                                             <FieldError errors={[fieldState.error]} />
                                         )}
-                                    </>
+                                    </Field>
                                 )}
                             />
                         </CardContent>

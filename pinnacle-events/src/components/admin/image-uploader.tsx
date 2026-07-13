@@ -1,34 +1,51 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Loader2, Upload, X } from "lucide-react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { uploadImage } from "@/lib/upload-image";
+
+interface ExistingCoverImage {
+  url: string;
+  publicId: string;
+}
 
 interface ImageUploaderProps {
-  value?: string;
-  onChange(value: string): void;
+  value: File | null;
+  onChange(file: File | null): void;
 
-  objectKey: string;
+  existingImage?: ExistingCoverImage | null;
+
+  onRemoveExisting?(): void;
 
   label?: string;
-
   accept?: string;
-
   aspectRatio?: string;
-
   disabled?: boolean;
-
   className?: string;
 }
+
+import imageCompression, {
+  type Options,
+} from "browser-image-compression";
+
+const compressionOptions: Options = {
+  maxSizeMB: 2,
+  maxWidthOrHeight: 2400,
+  initialQuality: 0.92,
+  useWebWorker: true,
+
+  fileType: "image/webp",
+};
 
 export function ImageUploader({
   value,
   onChange,
-  objectKey,
+
+  existingImage,
+  onRemoveExisting,
+
   label = "Upload Image",
   accept = "image/*",
   aspectRatio = "aspect-video",
@@ -37,30 +54,48 @@ export function ImageUploader({
 }: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [uploading, setUploading] = useState(false);
+  const [processing, setProcessing] = useState(false);
+
+  const [objectUrl, setObjectUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!value) {
+      setObjectUrl(null);
+      return;
+    }
+
+    const url = URL.createObjectURL(value);
+
+    setObjectUrl(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+    }
+  }, [value]);
+
+  const preview = objectUrl ?? existingImage?.url ?? null;
 
   async function handleFile(file: File) {
     try {
-      setUploading(true);
+      setProcessing(true);
 
-      const uploaded = await uploadImage({
-        file,
-        objectKey,
-      });
+      let finalFile = file;
 
-      onChange(uploaded.url);
-
-      toast.success("Image uploaded successfully.");
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Unable to upload image.",
+      if (file.size > 1024 * 1024) {
+        finalFile = await imageCompression(
+          file,
+          compressionOptions,
+        );
+      }
+      const before = file.size;
+      const after = finalFile.size;
+      console.log(
+        `${(before / 1024 / 1024).toFixed(2)}MB → ${(after / 1024 / 1024).toFixed(2)}MB`
       );
+
+      onChange(finalFile);
     } finally {
-      setUploading(false);
+      setProcessing(false);
 
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -68,26 +103,39 @@ export function ImageUploader({
     }
   }
 
+  function removeImage() {
+    if (value) {
+      onChange(null);
+    } else {
+      onRemoveExisting?.();
+    }
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }
+
   return (
     <div className={className}>
       <div
-        className={`relative overflow-hidden rounded-lg border border-border-hairline bg-muted cursor-pointer ${aspectRatio}`}
+        className={`relative overflow-hidden rounded-lg border border-border-hairline bg-muted ${aspectRatio}`}
       >
-        {value ? (
+        {preview ? (
           <>
             <Image
-              src={value}
-              alt=""
+              src={preview}
+              alt="Cover Preview"
               fill
+              unoptimized
               className="object-cover"
             />
 
-            <div className="absolute inset-0 flex items-start justify-end p-3">
+            <div className="absolute right-3 top-3">
               <Button
                 type="button"
                 size="icon"
                 variant="secondary"
-                onClick={() => onChange("")}
+                onClick={removeImage}
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -96,22 +144,24 @@ export function ImageUploader({
         ) : (
           <button
             type="button"
-            disabled={disabled || uploading}
+            disabled={disabled || processing}
             onClick={() => inputRef.current?.click()}
-            className="flex h-full w-full flex-col items-center justify-center gap-3 p-6 cursor-pointer"
+            className="flex h-full w-full flex-col items-center justify-center gap-3 p-6"
           >
-            {uploading ? (
+            {processing ? (
               <>
                 <Loader2 className="h-8 w-8 animate-spin" />
                 <span className="text-sm text-muted-foreground">
-                  Uploading...
+                  Processing...
                 </span>
               </>
             ) : (
               <>
                 <Upload className="h-8 w-8" />
 
-                <p className="font-medium">{label}</p>
+                <p className="font-medium">
+                  {label}
+                </p>
 
                 <p className="text-xs text-muted-foreground">
                   JPG, PNG, WEBP
@@ -127,7 +177,7 @@ export function ImageUploader({
         hidden
         type="file"
         accept={accept}
-        disabled={disabled || uploading}
+        disabled={disabled || processing}
         onChange={(e) => {
           const file = e.target.files?.[0];
 

@@ -22,7 +22,7 @@ type Work = Pick<
   | "id"
   | "title"
   | "client"
-  | "coverImage"
+  | "coverImageUrl"
   | "projectDate"
   | "featured"
   | "isPublished"
@@ -78,7 +78,7 @@ export function WorksTable({ works }: WorksTableProps) {
                             <TableCell>
                                 <div className="relative h-16 w-24 overflow-hidden rounded-md border">
                                     <Image
-                                        src={work.coverImage}
+                                        src={work.coverImageUrl}
                                         alt={work.title}
                                         fill
                                         className="object-cover"
