@@ -3,7 +3,8 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PortfolioFeed } from "@/components/portfolio/portfolio-feed";
 import { PageHero } from "@/components/shared/page-hero";
-import { getCaseStudiesPage, PORTFOLIO_PAGE_SIZE } from "@/content/portfolio";
+import { PORTFOLIO_PAGE_SIZE } from "@/lib/CONSTANTS";
+import { getPortfolioPage } from "@/lib/repository/work.repository";
 import type { Metadata } from "next";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -18,7 +19,11 @@ export default async function PortfolioPage() {
   cacheLife("max");
   cacheTag("portfolio-page");
 
-  const firstPage = getCaseStudiesPage(0, PORTFOLIO_PAGE_SIZE);
+  const initialItems =
+    await getPortfolioPage(
+      0,
+      PORTFOLIO_PAGE_SIZE,
+    );
 
   return (
     <>
@@ -31,9 +36,7 @@ export default async function PortfolioPage() {
       <Section>
         <Container>
           <PortfolioFeed
-            initialItems={firstPage.items}
-            initialNextCursor={firstPage.nextCursor}
-            initialHasMore={firstPage.hasMore}
+            initialItems={initialItems}
           />
         </Container>
       </Section>

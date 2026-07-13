@@ -56,15 +56,50 @@ interface UpdateWorkInput {
   uploadedGallery: {
     url: string;
     publicId: string;
-    alt?:string
+    alt?: string
   }[];
 }
 
-export async function findWorkBySlug(slug: string) {
+export async function getWorkBySlug(
+  slug: string,
+) {
   return db.query.works.findFirst({
-    where: (works, { eq }) => eq(works.slug, slug),
+    where: (works, { eq }) =>
+      eq(works.slug, slug),
+
+    with: {
+      gallery: {
+        columns: {
+          id: true,
+          imageUrl: true,
+          alt: true,
+        },
+      },
+    },
+  });
+}
+
+export async function getPortfolioSlugsMetadata(
+  slug: string,
+) {
+  return db.query.works.findFirst({
+    where: (works, { eq }) =>
+      eq(works.slug, slug),
     columns: {
       id: true,
+      title: true,
+      excerpt: true,
+    },
+  });
+}
+
+export async function getPortfolioSlugs() {
+  return db.query.works.findMany({
+    where: (works, { eq }) =>
+      eq(works.isPublished, true),
+
+    columns: {
+      slug: true,
     },
   });
 }
@@ -237,4 +272,32 @@ export async function deleteWork(
   await db
     .delete(works)
     .where(eq(works.id, id));
+}
+
+export async function getPortfolioPage(
+  offset: number,
+  limit: number,
+) {
+  const items = await db.query.works.findMany({
+    where: (works, { eq }) =>
+      eq(works.isPublished, true),
+
+    columns: {
+      title: true,
+      slug: true,
+      client: true,
+      location: true,
+      eventType: true,
+      coverImageUrl: true,
+    },
+
+    orderBy: (works, { desc }) => [
+      desc(works.projectDate),
+    ],
+
+    offset,
+    limit,
+  });
+
+  return items;
 }

@@ -5,10 +5,10 @@ import { revalidateTag } from "next/cache";
 import { destroyImages } from "@/lib/cloudinary/destroy";
 import { uploadImage, uploadImages } from "@/lib/cloudinary/upload";
 import { db } from "@/lib/db";
-import { createWork, deleteWork, findWorkBySlug, getWorkById, updateWork } from "@/lib/repository/work.repository";
+import { createWork, deleteWork, getPortfolioPage, getWorkById, getWorkBySlug, updateWork } from "@/lib/repository/work.repository";
+import { ExistingCoverImage } from "@/lib/types";
 import { workClientSchema } from "@/lib/validations/work";
 import { formDataToWork } from "@/lib/work.form-data";
-import { ExistingCoverImage } from "@/lib/types";
 
 interface ActionResult {
   success: boolean;
@@ -53,7 +53,7 @@ export async function createWorkAction(
   }
 
   const existing =
-    await findWorkBySlug(data.slug);
+    await getWorkBySlug(data.slug);
 
   if (existing) {
     return {
@@ -200,7 +200,7 @@ export async function updateWorkAction(
   }
 
   const duplicate =
-    await findWorkBySlug(data.slug);
+    await getWorkBySlug(data.slug);
 
   if (duplicate && duplicate.id !== id) {
     return {
@@ -288,6 +288,9 @@ export async function updateWorkAction(
       removedPublicIds,
     );
 
+    const oldSlug = work.slug;
+    const newSlug = data.slug;
+
     revalidateTag(
       "portfolio-page", "max"
     );
@@ -295,6 +298,26 @@ export async function updateWorkAction(
     revalidateTag(
       "featured-portfolio", "max"
     );
+    revalidateTag(
+      `portfolio-${data.slug}`, "max"
+    );
+
+    if (oldSlug === newSlug) {
+      revalidateTag(
+        `portfolio-${newSlug}`,
+        "max",
+      );
+    } else {
+      revalidateTag(
+        `portfolio-${oldSlug}`,
+        "max",
+      );
+
+      revalidateTag(
+        `portfolio-${newSlug}`,
+        "max",
+      );
+    }
 
     return {
       success: true,
@@ -320,7 +343,7 @@ export async function deleteWorkAction(
   id: string,
 ): Promise<ActionResult> {
   console.log("WORKD DELETE ID", id);
-  
+
   const work = await getWorkById(id);
 
   if (!work) {
@@ -348,7 +371,7 @@ export async function deleteWorkAction(
       "max",
     );
     revalidateTag(
-      `portfolio-${id}`,
+      `portfolio-${work.slug}`,
       "max",
     );
 
@@ -364,6 +387,32 @@ export async function deleteWorkAction(
       success: false,
       message:
         "Unable to delete work.",
+    };
+  }
+}
+
+export async function loadMoreWorks(
+  offset: number,
+) {
+  try {
+    const items =
+      await getPortfolioPage(
+        offset,
+        8,
+      );
+
+    return {
+      success: true,
+      items,
+      hasMore: items.length === 8,
+      message: "",
+    };
+  } catch {
+    return {
+      success: false,
+      items: [],
+      hasMore: false,
+      message: "Unable to load more projects.",
     };
   }
 }
