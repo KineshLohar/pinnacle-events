@@ -27,18 +27,17 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { getWorkById } from "@/lib/repository/work.repository";
+import { ExistingCoverImage, ExistingGalleryImage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { GalleryUploader } from "../gallery-uploader";
 import { ImageUploader } from "../image-uploader";
-import { workGallery, works } from "@/lib/db/schema";
-import { ExistingCoverImage, ExistingGalleryImage } from "@/lib/types";
 
-type WorkWithGallery =
-    typeof works.$inferSelect & {
-        gallery: typeof workGallery.$inferSelect[];
-    };
+export type WorkWithGallery = Awaited<
+    ReturnType<typeof getWorkById>
+>;
 
 
 interface Props {
@@ -204,7 +203,11 @@ export function WorkForm({
             formData.append(
                 "existingCover",
                 JSON.stringify(existingCover),
-              );
+            );
+            if (existingGallery.length + values.gallery.length === 0) {
+                toast.error("Please add at least one gallery image.");
+                return;
+            }
 
             formData.append(
                 "existingGallery",
@@ -396,9 +399,9 @@ export function WorkForm({
                                             </SelectTrigger>
 
                                             <SelectContent>
-                                                {WORK_CATEGORIES.map((category) => (
+                                                {WORK_CATEGORIES.map((category, i) => (
                                                     <SelectItem
-                                                        key={category}
+                                                        key={category + i}
                                                         value={category}
                                                     >
                                                         {category}

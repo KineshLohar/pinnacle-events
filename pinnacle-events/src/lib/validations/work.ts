@@ -8,7 +8,6 @@ export const WORK_CATEGORIES = [
   "Roadshow",
   "Brand Activation",
   "Award Ceremony",
-  "Roadshow",
   "Employee Engagement",
   "Other"
 ] as const;
@@ -107,7 +106,6 @@ export const workClientSchema =
             .optional(),
         }),
       )
-      .min(1),
   });
 
 export type WorkFormValues =

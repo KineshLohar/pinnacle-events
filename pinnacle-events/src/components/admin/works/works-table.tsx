@@ -16,16 +16,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { InferSelectModel } from "drizzle-orm";
 import { works } from "@/lib/db/schema";
+import { DeleteWorkDialog } from "./delete-work-dialog";
 
 type Work = Pick<
-  InferSelectModel<typeof works>,
-  | "id"
-  | "title"
-  | "client"
-  | "coverImageUrl"
-  | "projectDate"
-  | "featured"
-  | "isPublished"
+    InferSelectModel<typeof works>,
+    | "id"
+    | "title"
+    | "client"
+    | "coverImageUrl"
+    | "projectDate"
+    | "featured"
+    | "isPublished"
 >;
 
 interface WorksTableProps {
@@ -140,12 +141,10 @@ export function WorksTable({ works }: WorksTableProps) {
                                         </Link>
                                     </Button>
 
-                                    <Button
-                                        size="icon"
-                                        variant="destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
+                                    <DeleteWorkDialog
+                                        id={work.id}
+                                        title={work.title}
+                                    />
                                 </div>
                             </TableCell>
                         </TableRow>

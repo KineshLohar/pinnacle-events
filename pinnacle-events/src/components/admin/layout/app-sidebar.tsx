@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
     Award,
     BriefcaseBusiness,
-    LogOut,
-    Settings,
+    LogOut
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth/client";
@@ -38,6 +37,7 @@ const navItems = [
 ];
 
 export function AppSidebar() {
+    
     const pathname = usePathname();
 
     async function logout() {

@@ -230,3 +230,11 @@ export async function updateWork(
     );
   }
 }
+
+export async function deleteWork(
+  id: string,
+) {
+  await db
+    .delete(works)
+    .where(eq(works.id, id));
+}

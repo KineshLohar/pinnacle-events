@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
-import { getWorkById } from "@/lib/repository/work.repository";
 import { WorkForm } from "@/components/admin/works/work-form";
-import { cacheLife, cacheTag } from "next/cache";
+import { getWorkById } from "@/lib/repository/work.repository";
+import { Suspense } from "react";
 
 
 interface Props {
@@ -14,11 +14,20 @@ interface Props {
 export default async function EditWorkPage({
   params,
 }: Props) {
-  "use cache";
-  const { id } = await params;
 
-  cacheLife("max");
-  cacheTag(`portfolio-${id}`)
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditWork params={params} />
+    </Suspense>
+  );
+}
+
+async function EditWork({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const work = await getWorkById(id);
 
   if (!work) {
@@ -37,7 +46,10 @@ export default async function EditWorkPage({
         </p>
       </div>
 
-      <WorkForm mode="edit" work={work} />
+      <WorkForm
+        mode="edit"
+        work={work}
+      />
     </div>
   );
 }

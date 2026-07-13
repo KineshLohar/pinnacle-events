@@ -5,7 +5,7 @@ import { revalidateTag } from "next/cache";
 import { destroyImages } from "@/lib/cloudinary/destroy";
 import { uploadImage, uploadImages } from "@/lib/cloudinary/upload";
 import { db } from "@/lib/db";
-import { createWork, findWorkBySlug, getWorkById, updateWork } from "@/lib/repository/work.repository";
+import { createWork, deleteWork, findWorkBySlug, getWorkById, updateWork } from "@/lib/repository/work.repository";
 import { workClientSchema } from "@/lib/validations/work";
 import { formDataToWork } from "@/lib/work.form-data";
 import { ExistingCoverImage } from "@/lib/types";
@@ -47,6 +47,10 @@ export async function createWorkAction(
   }
 
   const data = parsed.data;
+
+  if (data.gallery.length === 0) {
+    return { success: false, message: "Please add at least one gallery image." };
+  }
 
   const existing =
     await findWorkBySlug(data.slug);
@@ -158,6 +162,8 @@ export async function updateWorkAction(
     "[]",
   );
 
+
+
   const removedGallery: string[] = JSON.parse(
     (formData.get("removedGallery") as string) ??
     "[]",
@@ -176,6 +182,13 @@ export async function updateWorkAction(
   }
 
   const data = parsed.data;
+
+  if (existingGallery.length + data.gallery.length === 0) {
+    return {
+      success: false,
+      message: "Please add at least one gallery image.",
+    };
+  }
 
   const work = await getWorkById(id);
 
@@ -299,6 +312,58 @@ export async function updateWorkAction(
       success: false,
       message:
         "Unable to update work.",
+    };
+  }
+}
+
+export async function deleteWorkAction(
+  id: string,
+): Promise<ActionResult> {
+  console.log("WORKD DELETE ID", id);
+  
+  const work = await getWorkById(id);
+
+  if (!work) {
+    return {
+      success: false,
+      message: "Work not found.",
+    };
+  }
+
+  try {
+    const publicIds = [
+      work.coverImagePublicId,
+      ...work.gallery.map(
+        (image) => image.publicId,
+      ),
+    ];
+
+    await destroyImages(publicIds);
+
+    await deleteWork(id);
+
+    revalidateTag("portfolio-page", "max");
+    revalidateTag(
+      "featured-portfolio",
+      "max",
+    );
+    revalidateTag(
+      `portfolio-${id}`,
+      "max",
+    );
+
+    return {
+      success: true,
+      message:
+        "Work deleted successfully.",
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Unable to delete work.",
     };
   }
 }

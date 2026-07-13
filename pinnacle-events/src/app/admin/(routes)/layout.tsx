@@ -1,9 +1,8 @@
-import { redirect } from "next/navigation";
 
 
-import { getSession } from "@/lib/auth/session";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/admin/layout/app-sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Suspense } from "react";
 
 interface AdminLayoutProps {
     children: React.ReactNode;
@@ -15,10 +14,11 @@ export default async function AdminLayout({
 
     return (
         <SidebarProvider>
-            <AppSidebar />
+            <Suspense fallback={<></>}>
+                <AppSidebar />
+            </Suspense>
 
             <SidebarInset>
-                {/* <AdminHeader user={currentUser} /> */}
                 <div className="w-full rounded-xl pl-3 pt-3">
                     <SidebarTrigger size="icon-lg" />
                 </div>
