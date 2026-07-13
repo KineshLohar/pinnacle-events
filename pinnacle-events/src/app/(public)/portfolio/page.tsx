@@ -1,12 +1,11 @@
-import type { Metadata } from "next";
+import { ContactCTA } from "@/components/home/contact-cta";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { PageHero } from "@/components/shared/page-hero";
-import { PortfolioCard } from "@/components/shared/portfolio-card";
-import { ContactCTA } from "@/components/home/contact-cta";
-import { caseStudies, getCaseStudiesPage, PORTFOLIO_PAGE_SIZE } from "@/content/portfolio";
-import { cacheLife, cacheTag } from "next/cache";
 import { PortfolioFeed } from "@/components/portfolio/portfolio-feed";
+import { PageHero } from "@/components/shared/page-hero";
+import { getCaseStudiesPage, PORTFOLIO_PAGE_SIZE } from "@/content/portfolio";
+import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Portfolio",

@@ -54,5 +54,6 @@ export const primaryNav = [
   { name: "Services", href: "/services" },
   { name: "About", href: "/about" },
   { name: "Clients", href: "/clients" },
+  { name: "Awards", href: "/awards" },
   { name: "Contact", href: "/contact" },
 ];

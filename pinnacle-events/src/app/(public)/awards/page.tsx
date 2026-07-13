@@ -1,18 +1,25 @@
-import type { Metadata } from "next";
+import { getPublicAwards } from "@/actions/award.action";
+import { ContactCTA } from "@/components/home/contact-cta";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { PageHero } from "@/components/shared/page-hero";
 import { AwardCard } from "@/components/shared/award-card";
+import { PageHero } from "@/components/shared/page-hero";
 import { RevealGroup } from "@/components/shared/reveal";
-import { ContactCTA } from "@/components/home/contact-cta";
-import { awards } from "@/content/awards";
+import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Awards & Recognition",
   description: "Recognition and client appreciation received by Pinnacle Events for corporate event execution.",
 };
 
-export default function AwardsPage() {
+export default async function AwardsPage() {
+  "use cache";
+
+  cacheLife("max");
+  cacheTag("awards");
+
+  const awards = await getPublicAwards();
   return (
     <>
       <PageHero

@@ -249,7 +249,7 @@ export function WorkForm({
             toast.success(result.message);
 
             router.push("/admin/works");
-            router.refresh();
+            // router.refresh();
         });
     }
 

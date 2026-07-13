@@ -79,7 +79,7 @@ export default async function ServicePage({ params }: Props) {
         </Container>
       </Section>
 
-      <Section>
+      {/* <Section>
         <Container>
           <Eyebrow className="mb-4">Gallery</Eyebrow>
           <h2 className="font-display text-4xl md:text-5xl max-w-xl mb-14">
@@ -90,11 +90,11 @@ export default async function ServicePage({ params }: Props) {
               <div
                 key={i}
                 className="corner-brackets aspect-[4/5] rounded-lg bg-bg-surface border border-border-hairline"
-              />
+              ></div>
             ))}
           </RevealGroup>
         </Container>
-      </Section>
+      </Section> */}
 
       <Section className="bg-bg-surface">
         <Container>
@@ -117,7 +117,7 @@ export default async function ServicePage({ params }: Props) {
         <Container>
           <Link
             href="/services"
-            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-gold-primary transition-colors mb-8"
+            className="inline-flex items-center gap-1.5 text-text-secondary hover:text-gold-primary transition-colors mb-8"
           >
             <ArrowUpRight className="w-4 h-4 rotate-[225deg]" />
             Back to all services

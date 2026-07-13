@@ -1,18 +1,18 @@
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { getLatestAwards } from "@/actions/award.action";
 import { Container } from "@/components/layout/container";
-import { Section, Eyebrow } from "@/components/layout/section";
+import { Eyebrow, Section } from "@/components/layout/section";
 import { AwardCard } from "@/components/shared/award-card";
 import { RevealGroup } from "@/components/shared/reveal";
-import { getFeaturedAwards } from "@/content/awards";
+import { ArrowUpRight } from "lucide-react";
 import { cacheLife, cacheTag } from "next/cache";
+import Link from "next/link";
 
 export async function AwardsRecognition() {
   "use cache"
   cacheLife("max");
   cacheTag("awards-recognition");
 
-  const recognitions = getFeaturedAwards(3);
+  const recognitions = await getLatestAwards();
 
   return (
     <Section id="awards">
