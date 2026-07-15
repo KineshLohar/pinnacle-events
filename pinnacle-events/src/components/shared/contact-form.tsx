@@ -1,108 +1,252 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useTransition } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowUpRight } from "lucide-react";
+import { toast } from "sonner";
+
+import { contactAction } from "@/actions/contact.action";
+
+import {
+  contactSchema,
+  defaultContactValues,
+  type ContactFormValues,
+} from "@/lib/validations/contact";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
+import {
+  Field,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field";
 
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [pending, startTransition] =
+    useTransition();
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    // Wire up to an email/CRM endpoint during implementation.
-    setSubmitted(true);
-  }
+  const form =
+    useForm<ContactFormValues>({
+      resolver: zodResolver(
+        contactSchema,
+      ),
+      defaultValues:
+        defaultContactValues,
+    });
 
-  if (submitted) {
-    return (
-      <div className="border border-border-hairline rounded-lg p-8">
-        <p className="font-display text-2xl mb-2">Thank you.</p>
-        <p className="text-text-secondary">
-          We have received your inquiry and will be in touch within one business day.
-        </p>
-      </div>
-    );
+  function onSubmit(
+    values: ContactFormValues,
+  ) {
+    startTransition(async () => {
+      const result =
+        await contactAction(values);
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(result.message);
+
+      form.reset();
+    });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="name" className="block text-sm text-text-secondary mb-2">
-            Full name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
-            placeholder="Jane Doe"
-          />
-        </div>
-        <div>
-          <label htmlFor="company" className="block text-sm text-text-secondary mb-2">
-            Company
-          </label>
-          <input
-            id="company"
-            name="company"
-            type="text"
-            required
-            className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
-            placeholder="Company name"
-          />
-        </div>
-      </div>
+    <form
+      onSubmit={form.handleSubmit(
+        onSubmit,
+      )}
+      className="space-y-6"
+      noValidate
+    >
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <Controller
+          control={form.control}
+          name="name"
+          render={({
+            field,
+            fieldState,
+          }) => (
+            <Field
+              data-invalid={
+                fieldState.invalid
+              }
+            >
+              <FieldLabel>
+                Full Name
+              </FieldLabel>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="email" className="block text-sm text-text-secondary mb-2">
-            Work email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
-            placeholder="jane@company.com"
-          />
-        </div>
-        <div>
-          <label htmlFor="phone" className="block text-sm text-text-secondary mb-2">
-            Phone
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
-            placeholder="+91"
-          />
-        </div>
-      </div>
+              <Input
+                {...field}
+                placeholder="Jane Doe"
+                className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
+              />
 
-      <div>
-        <label htmlFor="message" className="block text-sm text-text-secondary mb-2">
-          Tell us about the mandate
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
-          placeholder="Event type, scale, cities involved, timeline..."
+              {fieldState.error && (
+                <FieldError
+                  errors={[
+                    fieldState.error,
+                  ]}
+                />
+              )}
+            </Field>
+          )}
+        />
+
+        <Controller
+          control={form.control}
+          name="company"
+          render={({
+            field,
+            fieldState,
+          }) => (
+            <Field
+              data-invalid={
+                fieldState.invalid
+              }
+            >
+              <FieldLabel>
+                Company
+              </FieldLabel>
+
+              <Input
+                {...field}
+                placeholder="Company Name"
+                className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
+              />
+
+              {fieldState.error && (
+                <FieldError
+                  errors={[
+                    fieldState.error,
+                  ]}
+                />
+              )}
+            </Field>
+          )}
         />
       </div>
 
-      <button
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <Controller
+          control={form.control}
+          name="email"
+          render={({
+            field,
+            fieldState,
+          }) => (
+            <Field
+              data-invalid={
+                fieldState.invalid
+              }
+            >
+              <FieldLabel>
+                Work Email
+              </FieldLabel>
+
+              <Input
+                {...field}
+                type="email"
+                placeholder="jane@company.com"
+                className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
+              />
+
+              {fieldState.error && (
+                <FieldError
+                  errors={[
+                    fieldState.error,
+                  ]}
+                />
+              )}
+            </Field>
+          )}
+        />
+
+        <Controller
+          control={form.control}
+          name="phone"
+          render={({
+            field,
+            fieldState,
+          }) => (
+            <Field
+              data-invalid={
+                fieldState.invalid
+              }
+            >
+              <FieldLabel>
+                Phone
+              </FieldLabel>
+
+              <Input
+                {...field}
+                placeholder="+91 9876543210"
+                className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
+              />
+
+              {fieldState.error && (
+                <FieldError
+                  errors={[
+                    fieldState.error,
+                  ]}
+                />
+              )}
+            </Field>
+          )}
+        />
+      </div>
+
+      <Controller
+        control={form.control}
+        name="message"
+        render={({
+          field,
+          fieldState,
+        }) => (
+          <Field
+            data-invalid={
+              fieldState.invalid
+            }
+          >
+            <FieldLabel>
+              Tell us about the
+              mandate
+            </FieldLabel>
+
+            <Textarea
+              {...field}
+              rows={6}
+              className="w-full bg-bg-surface border border-border-hairline rounded-md px-4 py-3 text-text-primary placeholder:text-text-tertiary focus-visible:border-gold-primary"
+              placeholder="Event type, scale, cities involved, timeline..."
+            />
+
+            {fieldState.error && (
+              <FieldError
+                errors={[
+                  fieldState.error,
+                ]}
+              />
+            )}
+          </Field>
+        )}
+      />
+
+      <Button
         type="submit"
-        className="inline-flex items-center gap-2 bg-gold-primary text-bg-primary text-sm font-medium rounded-full px-7 py-3.5 hover:bg-gold-bright transition-colors"
+        disabled={pending}
+        size="lg"
+        className="inline-flex items-center gap-2 bg-gold-primary text-bg-primary text-sm font-medium rounded-full px-7 py-5 hover:bg-gold-bright transition-colors"
       >
-        Send Inquiry
-        <ArrowUpRight className="w-4 h-4" />
-      </button>
+        {pending
+          ? "Sending..."
+          : "Send Inquiry"}
+
+        <ArrowUpRight className="ml-2 h-4 w-4" />
+      </Button>
     </form>
   );
 }
