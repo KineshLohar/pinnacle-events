@@ -4,7 +4,6 @@ import { Eyebrow, Section } from "@/components/layout/section";
 import { Reveal, RevealGroup } from "@/components/shared/reveal";
 import { getPortfolioSlugs, getPortfolioSlugsMetadata, getWorkBySlug } from "@/lib/repository/work.repository";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -40,12 +39,9 @@ export async function generateMetadata({
 }
 
 export default async function CaseStudyPage({ params }: Props) {
-  "use cache";
 
   const { slug } = await params;
 
-  cacheLife("max");
-  cacheTag(`portfolio-${slug}`);
 
   const work =
     await getWorkBySlug(slug);

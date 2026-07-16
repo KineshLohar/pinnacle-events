@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { workGallery, works } from "../db/schema";
 import { and, eq, inArray } from "drizzle-orm";
 import { WorkFormValues } from "../validations/work";
+import { cacheLife, cacheTag } from "next/cache";
 
 
 interface CreateWorkInput {
@@ -25,6 +26,16 @@ interface CreateWorkInput {
 
   featured: boolean;
   isPublished: boolean;
+
+  gallery: {
+    imageUrl: string;
+    publicId: string;
+    alt?: string;
+  }[];
+}
+
+export interface CreateWorkGalleryInput {
+  workId: string;
 
   gallery: {
     imageUrl: string;
@@ -63,6 +74,10 @@ interface UpdateWorkInput {
 export async function getWorkBySlug(
   slug: string,
 ) {
+  "use cache";
+
+  cacheLife("max");
+  cacheTag(`portfolio-${slug}`);
   return db.query.works.findFirst({
     where: (works, { eq }) =>
       eq(works.slug, slug),
@@ -121,53 +136,106 @@ export async function getWorkById(id: string) {
   });
 }
 
+// export async function createWork(
+//   input: CreateWorkInput,
+// ) {
+//   return db.transaction(async (tx) => {
+//     const [work] = await tx
+//       .insert(works)
+//       .values({
+//         title: input.title,
+//         slug: input.slug,
+//         excerpt: input.excerpt,
+
+//         client: input.client,
+//         eventType: input.eventType,
+//         location: input.location,
+
+//         coverImageUrl: input.coverImageUrl,
+//         coverImagePublicId:
+//           input.coverImagePublicId,
+
+//         projectDate: input.projectDate,
+
+//         objective: input.objective,
+//         challenge: input.challenge,
+//         execution: input.execution,
+//         outcome: input.outcome,
+
+//         featured: input.featured,
+//         isPublished: input.isPublished,
+//       })
+//       .returning({
+//         id: works.id,
+//       });
+
+//     await tx.insert(workGallery).values(
+//       input.gallery.map((image) => ({
+//         workId: work.id,
+
+//         imageUrl: image.imageUrl,
+
+//         publicId: image.publicId,
+
+//         alt: image.alt,
+//       })),
+//     );
+
+//     return work;
+//   });
+// }
+
 export async function createWork(
-  input: CreateWorkInput,
+  input: Omit<CreateWorkInput, "gallery">,
 ) {
-  return db.transaction(async (tx) => {
-    const [work] = await tx
-      .insert(works)
-      .values({
-        title: input.title,
-        slug: input.slug,
-        excerpt: input.excerpt,
+  const [work] = await db
+    .insert(works)
+    .values({
+      title: input.title,
+      slug: input.slug,
+      excerpt: input.excerpt,
 
-        client: input.client,
-        eventType: input.eventType,
-        location: input.location,
+      client: input.client,
+      eventType: input.eventType,
+      location: input.location,
 
-        coverImageUrl: input.coverImageUrl,
-        coverImagePublicId:
-          input.coverImagePublicId,
+      coverImageUrl: input.coverImageUrl,
+      coverImagePublicId:
+        input.coverImagePublicId,
 
-        projectDate: input.projectDate,
+      projectDate: input.projectDate,
 
-        objective: input.objective,
-        challenge: input.challenge,
-        execution: input.execution,
-        outcome: input.outcome,
+      objective: input.objective,
+      challenge: input.challenge,
+      execution: input.execution,
+      outcome: input.outcome,
 
-        featured: input.featured,
-        isPublished: input.isPublished,
-      })
-      .returning({
-        id: works.id,
-      });
+      featured: input.featured,
+      isPublished: input.isPublished,
+    })
+    .returning({
+      id: works.id,
+    });
 
-    await tx.insert(workGallery).values(
-      input.gallery.map((image) => ({
-        workId: work.id,
+  return work;
+}
 
-        imageUrl: image.imageUrl,
+export async function createWorkGallery(
+  input: CreateWorkGalleryInput,
+) {
+  if (!input.gallery.length) return;
 
-        publicId: image.publicId,
+  await db.insert(workGallery).values(
+    input.gallery.map((image) => ({
+      workId: input.workId,
 
-        alt: image.alt,
-      })),
-    );
+      imageUrl: image.imageUrl,
 
-    return work;
-  });
+      publicId: image.publicId,
+
+      alt: image.alt ?? "",
+    })),
+  );
 }
 
 export async function getFeaturedWorks() {

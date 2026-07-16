@@ -247,8 +247,9 @@ export function WorkForm({
             }
 
             toast.success(result.message);
-
+            form.reset();
             router.push("/admin/works");
+            setRemovedGallery([])
             // router.refresh();
         });
     }

@@ -5,7 +5,7 @@ import { revalidateTag } from "next/cache";
 import { destroyImages } from "@/lib/cloudinary/destroy";
 import { uploadImage, uploadImages } from "@/lib/cloudinary/upload";
 import { db } from "@/lib/db";
-import { createWork, deleteWork, getPortfolioPage, getWorkById, getWorkBySlug, updateWork } from "@/lib/repository/work.repository";
+import { createWork, createWorkGallery, deleteWork, getPortfolioPage, getWorkById, getWorkBySlug, updateWork } from "@/lib/repository/work.repository";
 import { ExistingCoverImage } from "@/lib/types";
 import { workClientSchema } from "@/lib/validations/work";
 import { formDataToWork } from "@/lib/work.form-data";
@@ -32,6 +32,173 @@ export async function getWorks() {
   });
 }
 
+// export async function createWorkAction(
+//   formData: FormData,
+// ): Promise<ActionResult> {
+//   const values = formDataToWork(formData);
+
+//   const parsed = workClientSchema.safeParse(values);
+
+//   if (!parsed.success) {
+//     return {
+//       success: false,
+//       message: "Please fix the form errors.",
+//     };
+//   }
+
+//   const data = parsed.data;
+
+//   if (data.gallery.length === 0) {
+//     return { success: false, message: "Please add at least one gallery image." };
+//   }
+
+//   const existing =
+//     await getWorkBySlug(data.slug);
+
+//   if (existing) {
+//     return {
+//       success: false,
+//       message:
+//         "A work with this slug already exists.",
+//     };
+//   }
+
+//   const uploadedPublicIds: string[] = [];
+
+//   try {
+//     const uploadedCover =
+//       await uploadImage(data.coverImage!);
+
+//     uploadedPublicIds.push(
+//       uploadedCover.publicId,
+//     );
+
+//     const uploadedGallery =
+//       await uploadImages(
+//         data.gallery.map(
+//           (image) => image.image,
+//         ),
+//       );
+
+//     uploadedGallery.forEach((image) =>
+//       uploadedPublicIds.push(
+//         image.publicId,
+//       ),
+//     );
+
+//     // await createWork({
+//     //   title: data.title,
+//     //   slug: data.slug,
+//     //   excerpt: data.excerpt,
+
+//     //   client: data.client,
+//     //   eventType: data.eventType,
+//     //   location: data.location,
+
+//     //   coverImageUrl:
+//     //     uploadedCover.url,
+//     //   coverImagePublicId:
+//     //     uploadedCover.publicId,
+
+//     //   projectDate: data.projectDate,
+
+//     //   objective:
+//     //     data.objective ?? "",
+//     //   challenge:
+//     //     data.challenge ?? "",
+//     //   execution:
+//     //     data.execution ?? "",
+//     //   outcome:
+//     //     data.outcome ?? "",
+
+//     //   featured: data.featured,
+//     //   isPublished:
+//     //     data.isPublished,
+
+//     //   gallery: uploadedGallery.map(
+//     //     (image, index) => ({
+//     //       imageUrl: image.url,
+//     //       publicId: image.publicId,
+//     //       alt:
+//     //         data.gallery[index]?.alt ??
+//     //         "",
+//     //     }),
+//     //   ),
+//     // });
+
+//     const work = await createWork({
+//       title: data.title,
+//       slug: data.slug,
+//       excerpt: data.excerpt,
+
+//       client: data.client,
+//       eventType: data.eventType,
+//       location: data.location,
+
+//       coverImageUrl: uploadedCover.url,
+//       coverImagePublicId:
+//         uploadedCover.publicId,
+
+//       projectDate: data.projectDate,
+
+//       objective: data.objective ?? "",
+//       challenge: data.challenge ?? "",
+//       execution: data.execution ?? "",
+//       outcome: data.outcome ?? "",
+
+//       featured: data.featured,
+//       isPublished: data.isPublished,
+//     });
+
+//     try {
+//       await createWorkGallery({
+//         workId: work.id,
+
+//         gallery: uploadedGallery.map(
+//           (image, index) => ({
+//             imageUrl: image.url,
+//             publicId: image.publicId,
+//             alt:
+//               data.gallery[index]?.alt ??
+//               "",
+//           }),
+//         ),
+//       });
+//     } catch (error) {
+//       console.error(error);
+
+//       revalidateTag(
+//         "portfolio-page",
+//         "max",
+//       );
+
+//       return {
+//         success: true,
+//         message:
+//           "Work created successfully. Gallery images couldn't be saved. You can add them later from Edit Work.",
+//       };
+//     }
+
+//     revalidateTag("portfolio-page", "max");
+
+//     return {
+//       success: true,
+//       message:
+//         "Work created successfully.",
+//     };
+//   } catch (error) {
+//     console.error(error);
+
+//     await destroyImages(uploadedPublicIds);
+
+//     return {
+//       success: false,
+//       message:
+//         "Unable to create work.",
+//     };
+//   }
+// }
+
 export async function createWorkAction(
   formData: FormData,
 ): Promise<ActionResult> {
@@ -49,11 +216,14 @@ export async function createWorkAction(
   const data = parsed.data;
 
   if (data.gallery.length === 0) {
-    return { success: false, message: "Please add at least one gallery image." };
+    return {
+      success: false,
+      message:
+        "Please add at least one gallery image.",
+    };
   }
 
-  const existing =
-    await getWorkBySlug(data.slug);
+  const existing = await getWorkBySlug(data.slug);
 
   if (existing) {
     return {
@@ -66,8 +236,9 @@ export async function createWorkAction(
   const uploadedPublicIds: string[] = [];
 
   try {
-    const uploadedCover =
-      await uploadImage(data.coverImage!);
+    const uploadedCover = await uploadImage(
+      data.coverImage!,
+    );
 
     uploadedPublicIds.push(
       uploadedCover.publicId,
@@ -86,7 +257,7 @@ export async function createWorkAction(
       ),
     );
 
-    await createWork({
+    const work = await createWork({
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
@@ -95,8 +266,7 @@ export async function createWorkAction(
       eventType: data.eventType,
       location: data.location,
 
-      coverImageUrl:
-        uploadedCover.url,
+      coverImageUrl: uploadedCover.url,
       coverImagePublicId:
         uploadedCover.publicId,
 
@@ -114,19 +284,48 @@ export async function createWorkAction(
       featured: data.featured,
       isPublished:
         data.isPublished,
-
-      gallery: uploadedGallery.map(
-        (image, index) => ({
-          imageUrl: image.url,
-          publicId: image.publicId,
-          alt:
-            data.gallery[index]?.alt ??
-            "",
-        }),
-      ),
     });
 
-    revalidateTag("portfolio-page", "max");
+    try {
+      await createWorkGallery({
+        workId: work.id,
+
+        gallery: uploadedGallery.map(
+          (image, index) => ({
+            imageUrl: image.url,
+            publicId: image.publicId,
+            alt:
+              data.gallery[index]?.alt ??
+              "",
+          }),
+        ),
+      });
+    } catch (error) {
+      console.error(error);
+
+      // Remove gallery images since they were never saved.
+      await destroyImages(
+        uploadedGallery.map(
+          (image) => image.publicId,
+        ),
+      );
+
+      revalidateTag(
+        "portfolio-page",
+        "max",
+      );
+
+      return {
+        success: true,
+        message:
+          "Work created successfully, but gallery images couldn't be saved. You can upload them later from the Edit Work page.",
+      };
+    }
+
+    revalidateTag(
+      "portfolio-page",
+      "max",
+    );
 
     return {
       success: true,
@@ -136,7 +335,9 @@ export async function createWorkAction(
   } catch (error) {
     console.error(error);
 
-    await destroyImages(uploadedPublicIds);
+    await destroyImages(
+      uploadedPublicIds,
+    );
 
     return {
       success: false,
