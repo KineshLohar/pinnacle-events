@@ -64,8 +64,6 @@ function getStaticRoutes(
   return routes;
 }
 
-export const revalidate = 60 * 60; // 1 hour
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const appDir = path.join(process.cwd(), "src", "app");
 
