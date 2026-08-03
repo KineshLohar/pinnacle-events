@@ -57,6 +57,9 @@ export const metadata: Metadata = {
     description:
       "India's premium corporate event management and experiential marketing partner, headquartered in Ahmedabad.",
   },
+  verification: {
+    google: "Vh7igJCFcuAdsMadNKXmlqULhtOQlGoEj3fUUCMolpU"
+  }
 };
 
 export default function RootLayout({
