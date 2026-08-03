@@ -8,6 +8,7 @@ const BASE_URL = "https://www.pinnacleevents.co.in";
 
 const EXCLUDED_FOLDERS = new Set([
   "api",
+  "admin"
 ]);
 
 function getStaticRoutes(
