@@ -115,6 +115,7 @@ export async function getPortfolioSlugs() {
 
     columns: {
       slug: true,
+      updatedAt: true
     },
   });
 }
