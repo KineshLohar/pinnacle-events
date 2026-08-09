@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { destroyImages } from "@/lib/cloudinary/destroy";
 import {
@@ -77,7 +77,7 @@ export async function createAwardAction(
         uploaded.publicId,
     });
 
-    revalidateTag("awards", "max");
+    updateTag("awards");
 
     return {
       success: true,
@@ -178,7 +178,7 @@ export async function updateAwardAction(
       ]);
     }
 
-    revalidateTag("awards", "max");
+    updateTag("awards");
 
     return {
       success: true,
@@ -219,7 +219,7 @@ export async function deleteAwardAction(
 
     await deleteAward(id);
 
-    revalidateTag("awards", "max");
+    updateTag("awards");
 
     return {
       success: true,

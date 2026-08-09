@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { destroyImages } from "@/lib/cloudinary/destroy";
 import { uploadImage, uploadImages } from "@/lib/cloudinary/upload";
@@ -167,7 +167,7 @@ export async function getWorks() {
 //     } catch (error) {
 //       console.error(error);
 
-//       revalidateTag(
+//       updateTag(
 //         "portfolio-page",
 //         "max",
 //       );
@@ -179,7 +179,7 @@ export async function getWorks() {
 //       };
 //     }
 
-//     revalidateTag("portfolio-page", "max");
+//     updateTag("portfolio-page", "max");
 
 //     return {
 //       success: true,
@@ -310,10 +310,7 @@ export async function createWorkAction(
         ),
       );
 
-      revalidateTag(
-        "portfolio-page",
-        "max",
-      );
+      updateTag("portfolio-page");
 
       return {
         success: true,
@@ -322,10 +319,7 @@ export async function createWorkAction(
       };
     }
 
-    revalidateTag(
-      "portfolio-page",
-      "max",
-    );
+    updateTag("portfolio-page");
 
     return {
       success: true,
@@ -492,31 +486,28 @@ export async function updateWorkAction(
     const oldSlug = work.slug;
     const newSlug = data.slug;
 
-    revalidateTag(
-      "portfolio-page", "max"
+    updateTag(
+      "portfolio-page"
     );
 
-    revalidateTag(
-      "featured-portfolio", "max"
+    updateTag(
+      "featured-portfolio"
     );
-    revalidateTag(
-      `portfolio-${data.slug}`, "max"
+    updateTag(
+      `portfolio-${data.slug}`
     );
 
     if (oldSlug === newSlug) {
-      revalidateTag(
-        `portfolio-${newSlug}`,
-        "max",
+      updateTag(
+        `portfolio-${newSlug}`
       );
     } else {
-      revalidateTag(
+      updateTag(
         `portfolio-${oldSlug}`,
-        "max",
       );
 
-      revalidateTag(
-        `portfolio-${newSlug}`,
-        "max",
+      updateTag(
+        `portfolio-${newSlug}`
       );
     }
 
@@ -566,14 +557,12 @@ export async function deleteWorkAction(
 
     await deleteWork(id);
 
-    revalidateTag("portfolio-page", "max");
-    revalidateTag(
-      "featured-portfolio",
-      "max",
+    updateTag("portfolio-page");
+    updateTag(
+      "featured-portfolio"
     );
-    revalidateTag(
-      `portfolio-${work.slug}`,
-      "max",
+    updateTag(
+      `portfolio-${work.slug}`
     );
 
     return {
